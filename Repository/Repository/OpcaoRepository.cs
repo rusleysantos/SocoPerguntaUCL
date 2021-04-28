@@ -26,7 +26,6 @@ namespace Repository.Repository
             if (returnObj != null)
             {
                 returnObj.idCategoria = opcao.idCategoria == 0 ? returnObj.idCategoria : opcao.idCategoria;
-                returnObj.OpcaoVerdadeiraPara = opcao.OpcaoVerdadeiraPara == 0 ? returnObj.OpcaoVerdadeiraPara : opcao.OpcaoVerdadeiraPara;
                 returnObj.Descricao = opcao.Descricao == null ? returnObj.Descricao : opcao.Descricao;
 
                 _con.SaveChanges();
@@ -68,7 +67,6 @@ namespace Repository.Repository
             var obj = new Opcao
             {
                 Descricao = opcao.Descricao,
-                OpcaoVerdadeiraPara = opcao.OpcaoVerdadeiraPara,
                 idCategoria = opcao.idCategoria,
             };
 

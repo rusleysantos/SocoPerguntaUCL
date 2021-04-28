@@ -17,9 +17,7 @@ namespace Repository.Models
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }
 
-        [ForeignKey("STATUS")]
-        [Column("ID_STATUS")]
-        public int idStatus { get; set; }
+        [ForeignKey("ID_STATUS")]
         public Status Status { get; set; }
 
     }

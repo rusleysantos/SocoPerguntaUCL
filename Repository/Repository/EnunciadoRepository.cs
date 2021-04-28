@@ -21,11 +21,11 @@ namespace Repository.Repository
 
         public async Task<bool> AlterarEnunciado(EnunciadoDTO enunciado)
         {
-            var returnObj = await _con.ENUNCIADOS.Where(x => x.idCategoria == enunciado.idCategoria).FirstAsync();
+            var returnObj = await _con.ENUNCIADOS.Where(x => x.Categoria.idCategoria == enunciado.idCategoria).FirstAsync();
 
             if (returnObj != null)
             {
-                returnObj.idCategoria = enunciado.idCategoria == 0 ? returnObj.idCategoria : enunciado.idCategoria;
+                returnObj.Categoria.idCategoria = enunciado.idCategoria == 0 ? returnObj.Categoria.idCategoria : enunciado.idCategoria;
                 returnObj.Descricao = enunciado.Descricao == null ? returnObj.Descricao : enunciado.Descricao;
 
                 _con.SaveChanges();
@@ -48,7 +48,7 @@ namespace Repository.Repository
 
         public async Task<bool> DeletarEnunciado(int idEnunciado)
         {
-            var returnObj = await _con.ENUNCIADOS.Where(x => x.idCategoria == idEnunciado).FirstAsync();
+            var returnObj = await _con.ENUNCIADOS.Where(x => x.Categoria.idCategoria == idEnunciado).FirstAsync();
 
             if (returnObj != null)
             {
@@ -67,7 +67,7 @@ namespace Repository.Repository
             var obj = new Enunciado
             {
                 Descricao = enunciado.Descricao,
-                idCategoria = enunciado.idCategoria
+                //idCategoria = enunciado.idCategoria
             };
 
             await _con.ENUNCIADOS.AddAsync(obj);

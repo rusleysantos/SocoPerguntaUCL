@@ -27,14 +27,14 @@ namespace Repository.Repository
             {
                 EnunciadoPergunta = await _con
                                             .ENUNCIADOS
-                                            .Where(x => x.idCategoria == idCategoria)
+                                            .Where(x => x.Categoria.idCategoria == idCategoria)
                                             .Select(
                                                     x =>
                                                     new EnunciadoDTO
                                                     {
                                                         idEnunciado = x.idEnunciado,
                                                         Descricao = x.Descricao,
-                                                        idCategoria = x.idCategoria
+                                                        idCategoria = x.Categoria.idCategoria
                                                     }
                                             ).FirstOrDefaultAsync(),
 
@@ -48,7 +48,7 @@ namespace Repository.Repository
                                             {
                                                 idOpcao = x.idOpcao,
                                                 Descricao = x.Descricao,
-                                                idCategoria = x.idCategoria
+                                                idCategoria = x.idCategoria.Value
                                             }
                                     ).ToListAsync(),
             };

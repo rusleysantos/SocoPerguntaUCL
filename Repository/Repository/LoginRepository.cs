@@ -23,15 +23,15 @@ namespace Repository.Repository
         {
 
             var loginReturn = await _con
-                                .USUARIOS
-                                .Where(x => x.Nome == login.Username
-                                       &&
-                                       x.Senha == login.Password)
-                                .Select(x => new LoginDTO
-                                {
-                                    idUser = x.idUsuario,
-                                    Username = login.Username
-                                }).FirstOrDefaultAsync();
+                                    .USUARIOS
+                                    .Where(x => x.Nome == login.Username
+                                           &&
+                                           x.Senha == login.Password)
+                                    .Select(x => new LoginDTO
+                                    {
+                                        idUser = x.idUsuario,
+                                        Username = login.Username
+                                    }).FirstOrDefaultAsync();
                                
 
             if (loginReturn != null)
