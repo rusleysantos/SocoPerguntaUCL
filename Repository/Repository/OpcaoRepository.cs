@@ -21,11 +21,11 @@ namespace Repository.Repository
 
         public async Task<bool> AlterarOpcao(OpcaoDTO opcao)
         {
-            var returnObj = await _con.OPCAOES.Where(x => x.idCategoria == opcao.idCategoria).FirstAsync();
+            var returnObj = await _con.OPCAOES.Where(x => x.Categoria.idCategoria == opcao.idCategoria).FirstAsync();
 
             if (returnObj != null)
             {
-                returnObj.idCategoria = opcao.idCategoria == 0 ? returnObj.idCategoria : opcao.idCategoria;
+                returnObj.Categoria.idCategoria = opcao.idCategoria == 0 ? returnObj.Categoria.idCategoria : opcao.idCategoria;
                 returnObj.Descricao = opcao.Descricao == null ? returnObj.Descricao : opcao.Descricao;
 
                 _con.SaveChanges();
@@ -48,7 +48,7 @@ namespace Repository.Repository
 
         public async Task<bool> DeletarOpcao(int idOpcao)
         {
-            var returnObj = await _con.OPCAOES.Where(x => x.idCategoria == idOpcao).FirstAsync();
+            var returnObj = await _con.OPCAOES.Where(x => x.Categoria.idCategoria == idOpcao).FirstAsync();
 
             if (returnObj != null)
             {
@@ -64,10 +64,11 @@ namespace Repository.Repository
 
         public async Task<bool> InserirOpcao(OpcaoDTO opcao)
         {
+
             var obj = new Opcao
             {
                 Descricao = opcao.Descricao,
-                idCategoria = opcao.idCategoria,
+                idCategoria = opcao.idCategoria
             };
 
             await _con.OPCAOES.AddAsync(obj);

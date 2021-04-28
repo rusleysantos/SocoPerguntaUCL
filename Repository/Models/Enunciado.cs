@@ -20,7 +20,7 @@ namespace Repository.Models
         [ForeignKey("ID_CATEGORIA")]
         public Categoria Categoria { get; set; }
 
-        [ForeignKey("ID_OPCAO")]
+        [ForeignKey("ID_OPCAO_CORRETA")]
         public Opcao Opcao { get; set; }
     }
 }

@@ -55,14 +55,14 @@ namespace Repository.Migrations
                     b.Property<int?>("ID_CATEGORIA")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ID_OPCAO")
+                    b.Property<int?>("ID_OPCAO_CORRETA")
                         .HasColumnType("int");
 
                     b.HasKey("idEnunciado");
 
                     b.HasIndex("ID_CATEGORIA");
 
-                    b.HasIndex("ID_OPCAO");
+                    b.HasIndex("ID_OPCAO_CORRETA");
 
                     b.ToTable("ENUNCIADOS");
                 });
@@ -75,20 +75,16 @@ namespace Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoriaidCategoria")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descricao")
                         .HasColumnName("DESCRICAO")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("idCategoria")
-                        .HasColumnName("ID_CATEGORIA")
                         .HasColumnType("int");
 
                     b.HasKey("idOpcao");
 
-                    b.HasIndex("CategoriaidCategoria");
+                    b.HasIndex("idCategoria");
 
                     b.ToTable("OPCOES");
                 });
@@ -265,14 +261,14 @@ namespace Repository.Migrations
 
                     b.HasOne("Repository.Models.Opcao", "Opcao")
                         .WithMany()
-                        .HasForeignKey("ID_OPCAO");
+                        .HasForeignKey("ID_OPCAO_CORRETA");
                 });
 
             modelBuilder.Entity("Repository.Models.Opcao", b =>
                 {
                     b.HasOne("Repository.Models.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("CategoriaidCategoria");
+                        .HasForeignKey("idCategoria");
                 });
 
             modelBuilder.Entity("Repository.Models.Partida", b =>

@@ -42,15 +42,14 @@ namespace Repository.Migrations
                     ID_OPCAO = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DESCRICAO = table.Column<string>(nullable: true),
-                    ID_CATEGORIA = table.Column<int>(nullable: true),
-                    CategoriaidCategoria = table.Column<int>(nullable: true)
+                    idCategoria = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OPCOES", x => x.ID_OPCAO);
                     table.ForeignKey(
-                        name: "FK_OPCOES_CATEGORIAS_CategoriaidCategoria",
-                        column: x => x.CategoriaidCategoria,
+                        name: "FK_OPCOES_CATEGORIAS_idCategoria",
+                        column: x => x.idCategoria,
                         principalTable: "CATEGORIAS",
                         principalColumn: "ID_CATEGORIA",
                         onDelete: ReferentialAction.Restrict);
@@ -86,7 +85,7 @@ namespace Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DESCRICAO = table.Column<string>(nullable: true),
                     ID_CATEGORIA = table.Column<int>(nullable: true),
-                    ID_OPCAO = table.Column<int>(nullable: true)
+                    ID_OPCAO_CORRETA = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,8 +97,8 @@ namespace Repository.Migrations
                         principalColumn: "ID_CATEGORIA",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ENUNCIADOS_OPCOES_ID_OPCAO",
-                        column: x => x.ID_OPCAO,
+                        name: "FK_ENUNCIADOS_OPCOES_ID_OPCAO_CORRETA",
+                        column: x => x.ID_OPCAO_CORRETA,
                         principalTable: "OPCOES",
                         principalColumn: "ID_OPCAO",
                         onDelete: ReferentialAction.Restrict);
@@ -229,14 +228,14 @@ namespace Repository.Migrations
                 column: "ID_CATEGORIA");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ENUNCIADOS_ID_OPCAO",
+                name: "IX_ENUNCIADOS_ID_OPCAO_CORRETA",
                 table: "ENUNCIADOS",
-                column: "ID_OPCAO");
+                column: "ID_OPCAO_CORRETA");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OPCOES_CategoriaidCategoria",
+                name: "IX_OPCOES_idCategoria",
                 table: "OPCOES",
-                column: "CategoriaidCategoria");
+                column: "idCategoria");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PARTIDAS_ID_STATUS",

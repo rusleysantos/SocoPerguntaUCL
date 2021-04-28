@@ -21,7 +21,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Post([FromBody] CategoriaDTO categoria)
         {
             if (await _service.InserirCategoria(categoria))

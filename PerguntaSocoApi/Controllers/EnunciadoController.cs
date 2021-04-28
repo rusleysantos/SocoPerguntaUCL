@@ -21,7 +21,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Post([FromBody] EnunciadoDTO enunciado)
         {
             if (await _service.InserirEnunciado(enunciado))

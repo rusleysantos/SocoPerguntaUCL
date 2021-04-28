@@ -21,34 +21,34 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Post([FromBody] OpcaoDTO opcao)
         {
-            if (await _service.InserirOpcao(opcao))
+            try
             {
-                try
-                {
 
+                if (await _service.InserirOpcao(opcao))
+                {
                     return Ok(new MessageReturn("Sucesso ao Cadastrar",
                                                 "",
                                                 true,
                                                 null));
 
-
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                          "Erro, por favor tente noavmente mais tarde.",
+                                                          false));
                 }
+
             }
-            else
+            catch (Exception e)
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                      "Erro, por favor tente noavmente mais tarde.",
-                                                      false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 

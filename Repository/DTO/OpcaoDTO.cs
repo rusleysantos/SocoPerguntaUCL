@@ -8,7 +8,6 @@ namespace Repository.DTO
     {
         public int idOpcao { get; set; }
         public string Descricao { get; set; }
-        public int OpcaoVerdadeiraPara { get; set; }
         public int idCategoria { get; set; }
     }
 }

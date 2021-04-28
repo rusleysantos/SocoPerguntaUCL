@@ -41,14 +41,14 @@ namespace Repository.Repository
 
                 ListaOpcoes = await _con
                                     .OPCAOES
-                                    .Where(x => x.idCategoria == idCategoria)
+                                    .Where(x => x.Categoria.idCategoria == idCategoria)
                                     .Select(
                                             x =>
                                             new OpcaoDTO
                                             {
                                                 idOpcao = x.idOpcao,
                                                 Descricao = x.Descricao,
-                                                idCategoria = x.idCategoria.Value
+                                                idCategoria = x.Categoria.idCategoria
                                             }
                                     ).ToListAsync(),
             };
