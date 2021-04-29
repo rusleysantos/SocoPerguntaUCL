@@ -17,10 +17,15 @@ namespace Repository.Models
         [Column("DESCRICAO")]
         public string Descricao { get; set; }
 
-        [ForeignKey("ID_CATEGORIA")]
+        [Column("ID_CATEGORIA_ENUNCIADO")]
+        [ForeignKey("idCategoria")]
         public Categoria Categoria { get; set; }
+        public int? idCategoria { get; set; }
 
-        [ForeignKey("ID_OPCAO_CORRETA")]
+        [Column("ID_OPCAO_CORRETA")]
+        [ForeignKey("idOpcao")]
         public Opcao Opcao { get; set; }
+        public int? idOpcao { get; set; }
+
     }
 }

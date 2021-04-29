@@ -10,7 +10,7 @@ using Repository.Models;
 namespace Repository.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210428035618_Migration_Inicial")]
+    [Migration("20210429011402_Migration_Inicial")]
     partial class Migration_Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,17 +54,17 @@ namespace Repository.Migrations
                         .HasColumnName("DESCRICAO")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ID_CATEGORIA")
+                    b.Property<int?>("idCategoria")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ID_OPCAO_CORRETA")
+                    b.Property<int?>("idOpcao")
                         .HasColumnType("int");
 
                     b.HasKey("idEnunciado");
 
-                    b.HasIndex("ID_CATEGORIA");
+                    b.HasIndex("idCategoria");
 
-                    b.HasIndex("ID_OPCAO_CORRETA");
+                    b.HasIndex("idOpcao");
 
                     b.ToTable("ENUNCIADOS");
                 });
@@ -103,12 +103,12 @@ namespace Repository.Migrations
                         .HasColumnName("DATA_HORA")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ID_STATUS")
+                    b.Property<int?>("idStatus")
                         .HasColumnType("int");
 
                     b.HasKey("idPartida");
 
-                    b.HasIndex("ID_STATUS");
+                    b.HasIndex("idStatus");
 
                     b.ToTable("PARTIDAS");
                 });
@@ -121,17 +121,17 @@ namespace Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ID_ENUNCIADO")
+                    b.Property<int?>("idEnunciado")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ID_OPCAO")
+                    b.Property<int?>("idOpcao")
                         .HasColumnType("int");
 
                     b.HasKey("idPergunta");
 
-                    b.HasIndex("ID_ENUNCIADO");
+                    b.HasIndex("idEnunciado");
 
-                    b.HasIndex("ID_OPCAO");
+                    b.HasIndex("idOpcao");
 
                     b.ToTable("PERGUNTAS");
                 });
@@ -143,9 +143,6 @@ namespace Repository.Migrations
                         .HasColumnName("ID_PLACAR")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ID_USUARIO")
-                        .HasColumnType("int");
 
                     b.Property<int>("Porntuacao")
                         .HasColumnName("PONTUACAO")
@@ -159,9 +156,12 @@ namespace Repository.Migrations
                         .HasColumnName("QTD_TAPA_RECEBIDO")
                         .HasColumnType("int");
 
+                    b.Property<int?>("idUsuario")
+                        .HasColumnType("int");
+
                     b.HasKey("idPlacar");
 
-                    b.HasIndex("ID_USUARIO");
+                    b.HasIndex("idUsuario");
 
                     b.ToTable("PLACARES");
                 });
@@ -174,17 +174,17 @@ namespace Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ID_PARTIDA")
+                    b.Property<int?>("idPartida")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ID_PERGUNTA")
+                    b.Property<int?>("idPergunta")
                         .HasColumnType("int");
 
                     b.HasKey("idRodada");
 
-                    b.HasIndex("ID_PARTIDA");
+                    b.HasIndex("idPartida");
 
-                    b.HasIndex("ID_PERGUNTA");
+                    b.HasIndex("idPergunta");
 
                     b.ToTable("RODADAS");
                 });
@@ -197,17 +197,17 @@ namespace Repository.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ID_PARTIDA")
+                    b.Property<int?>("idPartida")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ID_USUARIO")
+                    b.Property<int?>("idUsuario")
                         .HasColumnType("int");
 
                     b.HasKey("idSessao");
 
-                    b.HasIndex("ID_PARTIDA");
+                    b.HasIndex("idPartida");
 
-                    b.HasIndex("ID_USUARIO");
+                    b.HasIndex("idUsuario");
 
                     b.ToTable("SESSOES");
                 });
@@ -224,12 +224,12 @@ namespace Repository.Migrations
                         .HasColumnName("ATIVA")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ID_PLACAR")
+                    b.Property<int?>("idPlacar")
                         .HasColumnType("int");
 
                     b.HasKey("idStatus");
 
-                    b.HasIndex("ID_PLACAR");
+                    b.HasIndex("idPlacar");
 
                     b.ToTable("STATUS");
                 });
@@ -259,11 +259,11 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Repository.Models.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("ID_CATEGORIA");
+                        .HasForeignKey("idCategoria");
 
                     b.HasOne("Repository.Models.Opcao", "Opcao")
                         .WithMany()
-                        .HasForeignKey("ID_OPCAO_CORRETA");
+                        .HasForeignKey("idOpcao");
                 });
 
             modelBuilder.Entity("Repository.Models.Opcao", b =>
@@ -277,54 +277,54 @@ namespace Repository.Migrations
                 {
                     b.HasOne("Repository.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("ID_STATUS");
+                        .HasForeignKey("idStatus");
                 });
 
             modelBuilder.Entity("Repository.Models.Pergunta", b =>
                 {
                     b.HasOne("Repository.Models.Enunciado", "Enunciado")
                         .WithMany()
-                        .HasForeignKey("ID_ENUNCIADO");
+                        .HasForeignKey("idEnunciado");
 
                     b.HasOne("Repository.Models.Opcao", "Opcao")
                         .WithMany()
-                        .HasForeignKey("ID_OPCAO");
+                        .HasForeignKey("idOpcao");
                 });
 
             modelBuilder.Entity("Repository.Models.Placar", b =>
                 {
                     b.HasOne("Repository.Models.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("ID_USUARIO");
+                        .HasForeignKey("idUsuario");
                 });
 
             modelBuilder.Entity("Repository.Models.Rodada", b =>
                 {
                     b.HasOne("Repository.Models.Partida", "Partida")
                         .WithMany()
-                        .HasForeignKey("ID_PARTIDA");
+                        .HasForeignKey("idPartida");
 
                     b.HasOne("Repository.Models.Pergunta", "Pergunta")
                         .WithMany()
-                        .HasForeignKey("ID_PERGUNTA");
+                        .HasForeignKey("idPergunta");
                 });
 
             modelBuilder.Entity("Repository.Models.Sessao", b =>
                 {
                     b.HasOne("Repository.Models.Partida", "Partida")
                         .WithMany()
-                        .HasForeignKey("ID_PARTIDA");
+                        .HasForeignKey("idPartida");
 
                     b.HasOne("Repository.Models.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("ID_USUARIO");
+                        .HasForeignKey("idUsuario");
                 });
 
             modelBuilder.Entity("Repository.Models.Status", b =>
                 {
                     b.HasOne("Repository.Models.Placar", "Placar")
                         .WithMany()
-                        .HasForeignKey("ID_PLACAR");
+                        .HasForeignKey("idPlacar");
                 });
 #pragma warning restore 612, 618
         }

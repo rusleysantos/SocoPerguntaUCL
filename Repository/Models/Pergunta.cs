@@ -14,10 +14,15 @@ namespace Repository.Models
         [Column("ID_PERGUNTA")]
         public int idPergunta { get; set; }
 
-        [ForeignKey("ID_ENUNCIADO")]
+        [Column("ID_ENUNCIADO_PERGUNTA")]
+        [ForeignKey("idEnunciado")]
         public Enunciado Enunciado { get; set; }
+        public int? idEnunciado { get; set; }
 
-        [ForeignKey("ID_OPCAO")]
+        [Column("ID_OPCAO_PERGUNTA")]
+        [ForeignKey("idOpcao")]
         public Opcao Opcao { get; set; }
+        public int? idOpcao { get; set; }
+
     }
 }

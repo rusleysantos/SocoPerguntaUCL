@@ -22,9 +22,12 @@ namespace Repository.Models
 
         [Column("QTD_TAPA_DADO")]
         public int QtdTapaDado { get; set; }
-      
-        [ForeignKey("ID_USUARIO")]
+
+        [Column("ID_USUARIO_PLACAR")]
+        [ForeignKey("idUsuario")]
         public Usuario Usuario { get; set; }
+        public int? idUsuario { get; set; }
+
 
     }
 }

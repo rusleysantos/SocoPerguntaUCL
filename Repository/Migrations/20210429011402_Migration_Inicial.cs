@@ -64,14 +64,14 @@ namespace Repository.Migrations
                     PONTUACAO = table.Column<int>(nullable: false),
                     QTD_TAPA_RECEBIDO = table.Column<int>(nullable: false),
                     QTD_TAPA_DADO = table.Column<int>(nullable: false),
-                    ID_USUARIO = table.Column<int>(nullable: true)
+                    idUsuario = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PLACARES", x => x.ID_PLACAR);
                     table.ForeignKey(
-                        name: "FK_PLACARES_USUARIOS_ID_USUARIO",
-                        column: x => x.ID_USUARIO,
+                        name: "FK_PLACARES_USUARIOS_idUsuario",
+                        column: x => x.idUsuario,
                         principalTable: "USUARIOS",
                         principalColumn: "ID_USUARIO",
                         onDelete: ReferentialAction.Restrict);
@@ -84,21 +84,21 @@ namespace Repository.Migrations
                     ID_ENUNCIADO = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DESCRICAO = table.Column<string>(nullable: true),
-                    ID_CATEGORIA = table.Column<int>(nullable: true),
-                    ID_OPCAO_CORRETA = table.Column<int>(nullable: true)
+                    idCategoria = table.Column<int>(nullable: true),
+                    idOpcao = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ENUNCIADOS", x => x.ID_ENUNCIADO);
                     table.ForeignKey(
-                        name: "FK_ENUNCIADOS_CATEGORIAS_ID_CATEGORIA",
-                        column: x => x.ID_CATEGORIA,
+                        name: "FK_ENUNCIADOS_CATEGORIAS_idCategoria",
+                        column: x => x.idCategoria,
                         principalTable: "CATEGORIAS",
                         principalColumn: "ID_CATEGORIA",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ENUNCIADOS_OPCOES_ID_OPCAO_CORRETA",
-                        column: x => x.ID_OPCAO_CORRETA,
+                        name: "FK_ENUNCIADOS_OPCOES_idOpcao",
+                        column: x => x.idOpcao,
                         principalTable: "OPCOES",
                         principalColumn: "ID_OPCAO",
                         onDelete: ReferentialAction.Restrict);
@@ -111,14 +111,14 @@ namespace Repository.Migrations
                     ID_STATUS = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ATIVA = table.Column<bool>(nullable: false),
-                    ID_PLACAR = table.Column<int>(nullable: true)
+                    idPlacar = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_STATUS", x => x.ID_STATUS);
                     table.ForeignKey(
-                        name: "FK_STATUS_PLACARES_ID_PLACAR",
-                        column: x => x.ID_PLACAR,
+                        name: "FK_STATUS_PLACARES_idPlacar",
+                        column: x => x.idPlacar,
                         principalTable: "PLACARES",
                         principalColumn: "ID_PLACAR",
                         onDelete: ReferentialAction.Restrict);
@@ -130,21 +130,21 @@ namespace Repository.Migrations
                 {
                     ID_PERGUNTA = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ID_ENUNCIADO = table.Column<int>(nullable: true),
-                    ID_OPCAO = table.Column<int>(nullable: true)
+                    idEnunciado = table.Column<int>(nullable: true),
+                    idOpcao = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PERGUNTAS", x => x.ID_PERGUNTA);
                     table.ForeignKey(
-                        name: "FK_PERGUNTAS_ENUNCIADOS_ID_ENUNCIADO",
-                        column: x => x.ID_ENUNCIADO,
+                        name: "FK_PERGUNTAS_ENUNCIADOS_idEnunciado",
+                        column: x => x.idEnunciado,
                         principalTable: "ENUNCIADOS",
                         principalColumn: "ID_ENUNCIADO",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PERGUNTAS_OPCOES_ID_OPCAO",
-                        column: x => x.ID_OPCAO,
+                        name: "FK_PERGUNTAS_OPCOES_idOpcao",
+                        column: x => x.idOpcao,
                         principalTable: "OPCOES",
                         principalColumn: "ID_OPCAO",
                         onDelete: ReferentialAction.Restrict);
@@ -157,14 +157,14 @@ namespace Repository.Migrations
                     ID_PROJECT_USER = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DATA_HORA = table.Column<DateTime>(nullable: false),
-                    ID_STATUS = table.Column<int>(nullable: true)
+                    idStatus = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PARTIDAS", x => x.ID_PROJECT_USER);
                     table.ForeignKey(
-                        name: "FK_PARTIDAS_STATUS_ID_STATUS",
-                        column: x => x.ID_STATUS,
+                        name: "FK_PARTIDAS_STATUS_idStatus",
+                        column: x => x.idStatus,
                         principalTable: "STATUS",
                         principalColumn: "ID_STATUS",
                         onDelete: ReferentialAction.Restrict);
@@ -176,21 +176,21 @@ namespace Repository.Migrations
                 {
                     ID_RODADA = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ID_PARTIDA = table.Column<int>(nullable: true),
-                    ID_PERGUNTA = table.Column<int>(nullable: true)
+                    idPartida = table.Column<int>(nullable: true),
+                    idPergunta = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RODADAS", x => x.ID_RODADA);
                     table.ForeignKey(
-                        name: "FK_RODADAS_PARTIDAS_ID_PARTIDA",
-                        column: x => x.ID_PARTIDA,
+                        name: "FK_RODADAS_PARTIDAS_idPartida",
+                        column: x => x.idPartida,
                         principalTable: "PARTIDAS",
                         principalColumn: "ID_PROJECT_USER",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RODADAS_PERGUNTAS_ID_PERGUNTA",
-                        column: x => x.ID_PERGUNTA,
+                        name: "FK_RODADAS_PERGUNTAS_idPergunta",
+                        column: x => x.idPergunta,
                         principalTable: "PERGUNTAS",
                         principalColumn: "ID_PERGUNTA",
                         onDelete: ReferentialAction.Restrict);
@@ -202,35 +202,35 @@ namespace Repository.Migrations
                 {
                     ID_SESSAO = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ID_PARTIDA = table.Column<int>(nullable: true),
-                    ID_USUARIO = table.Column<int>(nullable: true)
+                    idPartida = table.Column<int>(nullable: true),
+                    idUsuario = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SESSOES", x => x.ID_SESSAO);
                     table.ForeignKey(
-                        name: "FK_SESSOES_PARTIDAS_ID_PARTIDA",
-                        column: x => x.ID_PARTIDA,
+                        name: "FK_SESSOES_PARTIDAS_idPartida",
+                        column: x => x.idPartida,
                         principalTable: "PARTIDAS",
                         principalColumn: "ID_PROJECT_USER",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SESSOES_USUARIOS_ID_USUARIO",
-                        column: x => x.ID_USUARIO,
+                        name: "FK_SESSOES_USUARIOS_idUsuario",
+                        column: x => x.idUsuario,
                         principalTable: "USUARIOS",
                         principalColumn: "ID_USUARIO",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ENUNCIADOS_ID_CATEGORIA",
+                name: "IX_ENUNCIADOS_idCategoria",
                 table: "ENUNCIADOS",
-                column: "ID_CATEGORIA");
+                column: "idCategoria");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ENUNCIADOS_ID_OPCAO_CORRETA",
+                name: "IX_ENUNCIADOS_idOpcao",
                 table: "ENUNCIADOS",
-                column: "ID_OPCAO_CORRETA");
+                column: "idOpcao");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OPCOES_idCategoria",
@@ -238,49 +238,49 @@ namespace Repository.Migrations
                 column: "idCategoria");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PARTIDAS_ID_STATUS",
+                name: "IX_PARTIDAS_idStatus",
                 table: "PARTIDAS",
-                column: "ID_STATUS");
+                column: "idStatus");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PERGUNTAS_ID_ENUNCIADO",
+                name: "IX_PERGUNTAS_idEnunciado",
                 table: "PERGUNTAS",
-                column: "ID_ENUNCIADO");
+                column: "idEnunciado");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PERGUNTAS_ID_OPCAO",
+                name: "IX_PERGUNTAS_idOpcao",
                 table: "PERGUNTAS",
-                column: "ID_OPCAO");
+                column: "idOpcao");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PLACARES_ID_USUARIO",
+                name: "IX_PLACARES_idUsuario",
                 table: "PLACARES",
-                column: "ID_USUARIO");
+                column: "idUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RODADAS_ID_PARTIDA",
+                name: "IX_RODADAS_idPartida",
                 table: "RODADAS",
-                column: "ID_PARTIDA");
+                column: "idPartida");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RODADAS_ID_PERGUNTA",
+                name: "IX_RODADAS_idPergunta",
                 table: "RODADAS",
-                column: "ID_PERGUNTA");
+                column: "idPergunta");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SESSOES_ID_PARTIDA",
+                name: "IX_SESSOES_idPartida",
                 table: "SESSOES",
-                column: "ID_PARTIDA");
+                column: "idPartida");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SESSOES_ID_USUARIO",
+                name: "IX_SESSOES_idUsuario",
                 table: "SESSOES",
-                column: "ID_USUARIO");
+                column: "idUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_STATUS_ID_PLACAR",
+                name: "IX_STATUS_idPlacar",
                 table: "STATUS",
-                column: "ID_PLACAR");
+                column: "idPlacar");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

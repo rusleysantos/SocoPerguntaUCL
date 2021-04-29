@@ -17,8 +17,11 @@ namespace Repository.Models
         [Column("ATIVA")]
         public bool Ativa { get; set; }
 
-        [ForeignKey("ID_PLACAR")]
+        [Column("ID_PLACAR_STATUS")]
+        [ForeignKey("idPlacar")]
         public Placar Placar { get; set; }
+        public int? idPlacar { get; set; }
+
 
     }
 }
