@@ -117,7 +117,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> Get([FromQuery] int pagina, int quantidade)
         {
             try

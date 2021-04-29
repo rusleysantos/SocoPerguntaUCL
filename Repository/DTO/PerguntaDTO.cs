@@ -6,7 +6,8 @@ namespace Repository.DTO
 {
     public class PerguntaDTO
     {
+        public string teste { get; set; }
         public EnunciadoDTO EnunciadoPergunta;
-        public List<OpcaoDTO> ListaOpcoes;
+        public IEnumerable<OpcaoDTO> ListaOpcoes;
     }
 }

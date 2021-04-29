@@ -23,9 +23,20 @@ namespace Repository.Repository
         {
             List<OpcaoDTO> listOpcoes = new List<OpcaoDTO>();
 
-            return new PerguntaDTO
-            {
-                EnunciadoPergunta = await _con
+            listOpcoes = await _con
+                                .OPCAOES
+                                .Where(x => x.Categoria.idCategoria == idCategoria)
+                                .Select(
+                                        x =>
+                                        new OpcaoDTO
+                                        {
+                                            idOpcao = x.idOpcao,
+                                            Descricao = x.Descricao,
+                                            idCategoria = x.Categoria.idCategoria
+                                        }
+                                ).ToListAsync();
+
+            EnunciadoDTO enunciado = await _con
                                             .ENUNCIADOS
                                             .Where(x => x.Categoria.idCategoria == idCategoria)
                                             .Select(
@@ -36,22 +47,16 @@ namespace Repository.Repository
                                                         Descricao = x.Descricao,
                                                         idCategoria = x.Categoria.idCategoria
                                                     }
-                                            ).FirstOrDefaultAsync(),
+                                            ).FirstOrDefaultAsync();
 
-
-                ListaOpcoes = await _con
-                                    .OPCAOES
-                                    .Where(x => x.Categoria.idCategoria == idCategoria)
-                                    .Select(
-                                            x =>
-                                            new OpcaoDTO
-                                            {
-                                                idOpcao = x.idOpcao,
-                                                Descricao = x.Descricao,
-                                                idCategoria = x.Categoria.idCategoria
-                                            }
-                                    ).ToListAsync(),
+            var teste = new PerguntaDTO
+            {
+                teste = "teste",
+                EnunciadoPergunta = enunciado,
+                ListaOpcoes = listOpcoes.ToList()
             };
+
+            return teste;
 
         }
     }

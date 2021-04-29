@@ -20,7 +20,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpGet]
-       // [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Get([FromQuery] int idCategoria)
         {
             try
@@ -29,7 +29,7 @@ namespace PerguntaSocoApi.Controllers
                 return Ok(new MessageReturn("Sucesso ao Consultar",
                                             "",
                                             true,
-                                             await _service.CriarPergunta(idCategoria)));
+                                            await _service.CriarPergunta(idCategoria)));
 
             }
             catch
