@@ -67,7 +67,9 @@ namespace Repository.Repository
             var obj = new Enunciado
             {
                 Descricao = enunciado.Descricao,
-                //idCategoria = enunciado.idCategoria
+                idCategoria = enunciado.idCategoria,
+                idOpcao = enunciado.idOpcaoCorreta
+                
             };
 
             await _con.ENUNCIADOS.AddAsync(obj);

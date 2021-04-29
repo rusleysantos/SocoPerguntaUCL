@@ -56,9 +56,9 @@ namespace PerguntaSocoApi.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromQuery] int idOpcao)
         {
-            if (await _service.DeletarOpcao(idOpcao))
+            try
             {
-                try
+                if (await _service.DeletarOpcao(idOpcao))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Deletar",
@@ -68,19 +68,21 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        false));
                 }
             }
-            else
+
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                    "Erro, por favor tente noavmente mais tarde.",
-                                                    false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 
@@ -88,9 +90,9 @@ namespace PerguntaSocoApi.Controllers
         [Authorize]
         public async Task<IActionResult> Put([FromBody] OpcaoDTO opcao)
         {
-            if (await _service.AlterarOpcao(opcao))
+            try
             {
-                try
+                if (await _service.AlterarOpcao(opcao))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Alterar",
@@ -100,19 +102,19 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                    "Erro, por favor tente noavmente mais tarde.",
-                                                    false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 

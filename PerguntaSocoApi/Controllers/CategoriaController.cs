@@ -24,9 +24,9 @@ namespace PerguntaSocoApi.Controllers
         //[Authorize]
         public async Task<IActionResult> Post([FromBody] CategoriaDTO categoria)
         {
-            if (await _service.InserirCategoria(categoria))
+            try
             {
-                try
+                if (await _service.InserirCategoria(categoria))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Cadastrar",
@@ -36,19 +36,19 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                          "Erro, por favor tente noavmente mais tarde.",
+                                                          false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                      "Erro, por favor tente noavmente mais tarde.",
-                                                      false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 
@@ -56,9 +56,9 @@ namespace PerguntaSocoApi.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromQuery] int categoria)
         {
-            if (await _service.DeletarCategoria(categoria))
+            try
             {
-                try
+                if (await _service.DeletarCategoria(categoria))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Deletar",
@@ -68,19 +68,19 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                    "Erro, por favor tente noavmente mais tarde.",
-                                                    false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 
@@ -89,9 +89,9 @@ namespace PerguntaSocoApi.Controllers
         [Authorize]
         public async Task<IActionResult> Put([FromBody] CategoriaDTO categoria)
         {
-            if (await _service.AlterarCategoria(categoria))
+            try
             {
-                try
+                if (await _service.AlterarCategoria(categoria))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Alterar",
@@ -101,19 +101,18 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                    "Erro, por favor tente noavmente mais tarde.",
-                                                    false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
             }
         }
 

@@ -24,9 +24,9 @@ namespace PerguntaSocoApi.Controllers
         //[Authorize]
         public async Task<IActionResult> Post([FromBody] EnunciadoDTO enunciado)
         {
-            if (await _service.InserirEnunciado(enunciado))
+            try
             {
-                try
+                if (await _service.InserirEnunciado(enunciado))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Cadastrar",
@@ -36,19 +36,19 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                          "Erro, por favor tente noavmente mais tarde.",
+                                                          false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                      "Erro, por favor tente noavmente mais tarde.",
-                                                      false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 
@@ -56,9 +56,9 @@ namespace PerguntaSocoApi.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromQuery] int idEnunciado)
         {
-            if (await _service.DeletarEnunciado(idEnunciado))
+            try
             {
-                try
+                if (await _service.DeletarEnunciado(idEnunciado))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Deletar",
@@ -68,19 +68,19 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                    "Erro, por favor tente noavmente mais tarde.",
-                                                    false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 
@@ -88,9 +88,9 @@ namespace PerguntaSocoApi.Controllers
         [Authorize]
         public async Task<IActionResult> Put([FromBody] EnunciadoDTO enunciado)
         {
-            if (await _service.AlterarEnunciado(enunciado))
+            try
             {
-                try
+                if (await _service.AlterarEnunciado(enunciado))
                 {
 
                     return Ok(new MessageReturn("Sucesso ao Alterar",
@@ -100,19 +100,19 @@ namespace PerguntaSocoApi.Controllers
 
 
                 }
-                catch
+                else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                       "Erro, por favor tente noavmente mais tarde.",
-                                                       false));
-
+                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        false));
                 }
             }
-            else
+            catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                    "Erro, por favor tente noavmente mais tarde.",
-                                                    false));
+                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   false));
+
             }
         }
 
