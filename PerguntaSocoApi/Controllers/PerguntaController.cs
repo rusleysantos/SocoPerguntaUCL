@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Domain.Domains;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repository.DTO;
 using Service.Contracts;
 
 namespace PerguntaSocoApi.Controllers
@@ -20,7 +21,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpGet]
-        // [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Get([FromQuery] int idCategoria)
         {
             try
@@ -40,6 +41,30 @@ namespace PerguntaSocoApi.Controllers
 
             }
         }
+
+        [HttpGet]
+        //[Authorize]
+        public async Task<IActionResult> Post([FromBody] RespostaDTO resposta)
+        {
+            try
+            {
+
+                return Ok(new MessageReturn("Sucesso ao Consultar",
+                                            "",
+                                            true,
+                                            await _service.ValidarResposta(resposta)));
+
+            }
+            catch
+            {
+                return BadRequest(new MessageReturn("Erro ao Consultar",
+                                                   "Erro ao consultar, por favor tente noavmente mais tarde.",
+                                                   false));
+
+            }
+        }
+
+        
 
     }
 }

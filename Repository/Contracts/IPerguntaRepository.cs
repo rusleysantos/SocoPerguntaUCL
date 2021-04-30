@@ -8,6 +8,8 @@ namespace Repository.Contracts
 {
     public interface IPerguntaRepository
     {
-        public Task<PerguntaDTO> CriarPergunta(int idCategoria);
+        public Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria);
+        public Task<bool> ValidarResposta(RespostaDTO resposta);
+
     }
 }

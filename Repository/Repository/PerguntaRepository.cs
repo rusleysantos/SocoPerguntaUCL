@@ -19,9 +19,10 @@ namespace Repository.Repository
             _con = con;
         }
 
-        public async Task<PerguntaDTO> CriarPergunta(int idCategoria)
+        public async Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria)
         {
             List<OpcaoDTO> listOpcoes = new List<OpcaoDTO>();
+            List<PerguntaDTO> pergunta = new List<PerguntaDTO>();
 
             listOpcoes = await _con
                                 .OPCAOES
@@ -32,7 +33,7 @@ namespace Repository.Repository
                                         {
                                             idOpcao = x.idOpcao,
                                             Descricao = x.Descricao,
-                                            idCategoria = x.Categoria.idCategoria
+                                            idCategoria = x.idCategoria.Value
                                         }
                                 ).ToListAsync();
 
@@ -45,19 +46,43 @@ namespace Repository.Repository
                                                     {
                                                         idEnunciado = x.idEnunciado,
                                                         Descricao = x.Descricao,
-                                                        idCategoria = x.Categoria.idCategoria
+                                                        idCategoria = x.idCategoria.Value,
+                                                        idOpcaoCorreta = 0
+
                                                     }
-                                            ).FirstOrDefaultAsync();
+                                            )
+                                            .FirstOrDefaultAsync();
 
-            var teste = new PerguntaDTO
+
+
+            pergunta.Add(new PerguntaDTO
             {
-                teste = "teste",
                 EnunciadoPergunta = enunciado,
-                ListaOpcoes = listOpcoes.ToList()
-            };
+                ListaOpcoes = listOpcoes
+            });
 
-            return teste;
+            return pergunta;
 
+        }
+
+        public async Task<bool> ValidarResposta(RespostaDTO resposta)
+        {
+            var enunciado = await _con.ENUNCIADOS
+                                    .Where(x => x.idEnunciado == resposta.idEnunciado)
+                                    .FirstOrDefaultAsync();
+
+            var opcao = await _con.OPCAOES
+                                    .Where(x => x.idOpcao == resposta.idOpcao)
+                                    .FirstOrDefaultAsync();
+
+            if (enunciado.idOpcao == opcao.idOpcao)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

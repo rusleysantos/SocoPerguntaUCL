@@ -58,7 +58,7 @@ namespace PerguntaSocoApi
 
             services.AddControllers();
             services.AddScoped(typeof(Context));
-        
+
             services.AddScoped<ICategoriaService, CategoriaService>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
             services.AddScoped<ITokenService, TokenService>();
@@ -74,6 +74,12 @@ namespace PerguntaSocoApi
             services.AddDbContext<Context>(options =>
                options.UseSqlServer(
                Configuration.GetConnectionString("ConnDB")));
+
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+         );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
