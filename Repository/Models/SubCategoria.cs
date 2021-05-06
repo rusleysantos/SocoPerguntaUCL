@@ -6,19 +6,19 @@ using System.Text;
 
 namespace Repository.Models
 {
-    [Table("CATEGORIAS")]
-    public class Categoria
+    [Table("SUB_CATEGORIAS")]
+    public class SubCategoria
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("ID_CATEGORIA")]
-        public int idCategoria { get; set; }
+        [Column("ID_SUB_CATEGORIA")]
+        public int idSubCategoria { get; set; }
 
         [Column("NOME")]
         public string Nome { get; set; }
 
         [Column("DESCRICAO")]
         public string Descricao { get; set; }
-     
+
     }
 }

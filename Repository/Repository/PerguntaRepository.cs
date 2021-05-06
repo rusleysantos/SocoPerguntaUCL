@@ -23,19 +23,7 @@ namespace Repository.Repository
         {
             List<OpcaoDTO> listOpcoes = new List<OpcaoDTO>();
             List<PerguntaDTO> pergunta = new List<PerguntaDTO>();
-
-            listOpcoes = await _con
-                                .OPCAOES
-                                .Where(x => x.Categoria.idCategoria == idCategoria)
-                                .Select(
-                                        x =>
-                                        new OpcaoDTO
-                                        {
-                                            idOpcao = x.idOpcao,
-                                            Descricao = x.Descricao,
-                                            idCategoria = x.idCategoria.Value
-                                        }
-                                ).ToListAsync();
+            Random rand = new Random();
 
             EnunciadoDTO enunciado = await _con
                                             .ENUNCIADOS
@@ -47,18 +35,42 @@ namespace Repository.Repository
                                                         idEnunciado = x.idEnunciado,
                                                         Descricao = x.Descricao,
                                                         idCategoria = x.idCategoria.Value,
-                                                        idOpcaoCorreta = 0
-
+                                                        idOpcaoCorreta = x.idOpcao.Value
                                                     }
-                                            )
-                                            .FirstOrDefaultAsync();
+                                            ).OrderBy(r => Guid.NewGuid()).Take(1).FirstAsync();
 
+            listOpcoes = await _con
+                                .OPCAOES
+                                .Where(x => x.Categoria.idCategoria == idCategoria && x.idOpcao != enunciado.idOpcaoCorreta)
+                                .Select(
+                                        x =>
+                                        new OpcaoDTO
+                                        {
+                                            idOpcao = x.idOpcao,
+                                            Descricao = x.Descricao,
+                                            idCategoria = x.idCategoria.Value
+                                        }
+                                ).OrderBy(r => Guid.NewGuid()).Take(3).ToListAsync();
+
+
+            listOpcoes.Add(await _con
+                                .OPCAOES
+                                .Where(x => x.idOpcao == enunciado.idOpcaoCorreta)
+                                .Select(
+                                        x =>
+                                        new OpcaoDTO
+                                        {
+                                            idOpcao = x.idOpcao,
+                                            Descricao = x.Descricao,
+                                            idCategoria = x.idCategoria.Value
+                                        }
+                                ).FirstAsync());
 
 
             pergunta.Add(new PerguntaDTO
             {
                 EnunciadoPergunta = enunciado,
-                ListaOpcoes = listOpcoes
+                ListaOpcoes = listOpcoes.OrderBy(a => rand.Next()).ToList()
             });
 
             return pergunta;

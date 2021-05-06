@@ -33,6 +33,7 @@ namespace Repository.Models
         }
 
         public DbSet<Categoria> CATEGORIAS { get; set; }
+        public DbSet<SubCategoria> SUB_CATEGORIAS { get; set; }
         public DbSet<Enunciado> ENUNCIADOS { get; set; }
         public DbSet<Opcao> OPCAOES { get; set; }
         public DbSet<Partida> PARTIDAS { get; set; }

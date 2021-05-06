@@ -22,5 +22,10 @@ namespace Repository.Models
         public Categoria Categoria { get; set; }
         public int? idCategoria { get; set; }
 
+        [Column("ID_SUB_CATEGORIA_OPCAO")]
+        [ForeignKey("idSubCategoria")]
+        public SubCategoria SubCategoria { get; set; }
+        public int? idSubCategoria { get; set; }
+
     }
 }

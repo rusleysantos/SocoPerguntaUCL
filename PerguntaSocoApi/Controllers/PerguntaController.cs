@@ -21,7 +21,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Get([FromQuery] int idCategoria)
         {
             try
@@ -33,7 +33,7 @@ namespace PerguntaSocoApi.Controllers
                                             await _service.CriarPergunta(idCategoria)));
 
             }
-            catch
+            catch (Exception e)
             {
                 return BadRequest(new MessageReturn("Erro ao Consultar",
                                                    "Erro ao consultar, por favor tente noavmente mais tarde.",
@@ -42,8 +42,9 @@ namespace PerguntaSocoApi.Controllers
             }
         }
 
-        [HttpGet]
-        //[Authorize]
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] RespostaDTO resposta)
         {
             try
