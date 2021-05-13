@@ -10,6 +10,7 @@ namespace Repository.Contracts
     {
         public Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria);
         public Task<bool> ValidarResposta(RespostaDTO resposta);
+        public Task<bool> PopularBanco(List<MassaDadosPerguntaDTO> massa);
 
     }
 }

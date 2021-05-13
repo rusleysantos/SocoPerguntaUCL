@@ -24,7 +24,11 @@ namespace Service.Services
         public Task<bool> ValidarResposta(RespostaDTO resposta)
         {
             return _respository.ValidarResposta(resposta);
+        }
 
+        public Task<bool> PopularBanco(List<MassaDadosPerguntaDTO> massa)
+        {
+            return _respository.PopularBanco(massa);
         }
     }
 }

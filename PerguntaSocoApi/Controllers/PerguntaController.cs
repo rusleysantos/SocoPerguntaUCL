@@ -20,8 +20,8 @@ namespace PerguntaSocoApi.Controllers
             _service = service;
         }
 
-        [HttpGet]
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int idCategoria)
         {
             try
@@ -43,8 +43,8 @@ namespace PerguntaSocoApi.Controllers
         }
 
 
-        [HttpPost]
         [Authorize]
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody] RespostaDTO resposta)
         {
             try
@@ -65,7 +65,36 @@ namespace PerguntaSocoApi.Controllers
             }
         }
 
-        
+        [HttpPost("popular")]
+        public async Task<IActionResult> PopularBanco([FromBody] List<MassaDadosPerguntaDTO> massa)
+        {
+            try
+            {
+                if (await _service.PopularBanco(massa))
+                {
+
+                    return Ok(new MessageReturn("Sucesso ao Popular Banco",
+                                                "",
+                                                true,
+                                                ""));
+
+                }
+                else
+                {
+                    return Ok(new MessageReturn("Erro ao Popular Banco",
+                                                "",
+                                                true,
+                                                ""));
+                }
+            }
+            catch
+            {
+                return BadRequest(new MessageReturn("Erro ao Consultar",
+                                                   "Erro ao consultar, por favor tente noavmente mais tarde.",
+                                                   false));
+
+            }
+        }
 
     }
 }
