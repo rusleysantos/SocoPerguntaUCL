@@ -36,7 +36,7 @@ namespace PerguntaSocoApi.Controllers
             catch (Exception e)
             {
                 return BadRequest(new MessageReturn("Erro ao Consultar",
-                                                   "Erro ao consultar, por favor tente noavmente mais tarde.",
+                                                   "Erro ao consultar, por favor tente novamente mais tarde.",
                                                    false));
 
             }
@@ -59,7 +59,7 @@ namespace PerguntaSocoApi.Controllers
             catch
             {
                 return BadRequest(new MessageReturn("Erro ao Consultar",
-                                                   "Erro ao consultar, por favor tente noavmente mais tarde.",
+                                                   "Erro ao consultar, por favor tente novamente mais tarde.",
                                                    false));
 
             }
@@ -90,7 +90,7 @@ namespace PerguntaSocoApi.Controllers
             catch
             {
                 return BadRequest(new MessageReturn("Erro ao Consultar",
-                                                   "Erro ao consultar, por favor tente noavmente mais tarde.",
+                                                   "Erro ao consultar, por favor tente novamente mais tarde.",
                                                    false));
 
             }

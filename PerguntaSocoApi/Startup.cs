@@ -73,6 +73,8 @@ namespace PerguntaSocoApi
             services.AddScoped<IEnunciadoService, EnunciadoService>();
             services.AddScoped<IPerguntaRepository, PerguntaRepository>();
             services.AddScoped<IPerguntaService, PerguntaService>();
+            services.AddScoped<IInicioJogoService, InicioJogoService>();
+            services.AddScoped<IInicioJogoRepository, InicioJogoRepository>();
 
             services.AddDbContext<Context>(options =>
                options.UseSqlServer(

@@ -21,7 +21,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] OpcaoDTO opcao)
         {
             try
@@ -38,7 +38,7 @@ namespace PerguntaSocoApi.Controllers
                 else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                          "Erro, por favor tente noavmente mais tarde.",
+                                                          "Erro, por favor tente novamente mais tarde.",
                                                           false));
                 }
 
@@ -46,7 +46,7 @@ namespace PerguntaSocoApi.Controllers
             catch (Exception e)
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   "Erro, por favor tente novamente mais tarde.",
                                                    false));
 
             }
@@ -72,7 +72,7 @@ namespace PerguntaSocoApi.Controllers
                 else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        "Erro, por favor tente novamente mais tarde.",
                                                         false));
                 }
             }
@@ -80,7 +80,7 @@ namespace PerguntaSocoApi.Controllers
             catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   "Erro, por favor tente novamente mais tarde.",
                                                    false));
 
             }
@@ -105,14 +105,14 @@ namespace PerguntaSocoApi.Controllers
                 else
                 {
                     return BadRequest(new MessageReturn("Erro",
-                                                        "Erro, por favor tente noavmente mais tarde.",
+                                                        "Erro, por favor tente novamente mais tarde.",
                                                         false));
                 }
             }
             catch
             {
                 return BadRequest(new MessageReturn("Erro",
-                                                   "Erro, por favor tente noavmente mais tarde.",
+                                                   "Erro, por favor tente novamente mais tarde.",
                                                    false));
 
             }
@@ -134,7 +134,7 @@ namespace PerguntaSocoApi.Controllers
             catch
             {
                 return BadRequest(new MessageReturn("Erro ao Consultar",
-                                                   "Erro ao consultar, por favor tente noavmente mais tarde.",
+                                                   "Erro ao consultar, por favor tente novamente mais tarde.",
                                                    false));
 
             }

@@ -11,11 +11,14 @@ namespace Repository.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("ID_PROJECT_USER")]
+        [Column("ID_PARTIDA")]
         public int idPartida { get; set; }
 
-        [Column("DATA_HORA")]
-        public DateTime DataHora { get; set; }
+        [Column("DATA_HORA_INICIO")]
+        public DateTime DataHoraInicio { get; set; }
+
+        [Column("DATA_HORA_FIM")]
+        public DateTime DataHoraFim { get; set; }
 
         [Column("ID_STATUS_PARTIDA")]
         [ForeignKey("idStatus")]

@@ -101,42 +101,44 @@ namespace Repository.Repository
         {
             try
             {
-
                 foreach (var opcao in massa)
                 {
-                    var novaOpcao = new Opcao
+                    if (!_con.ENUNCIADOS.Any(x => x.Descricao == opcao.Enunciado))
                     {
-                        Descricao = opcao.OpcaoCorreta,
-                        idCategoria = opcao.idCategoria,
-                    };
-
-                    await _con.OPCAOES.AddAsync(novaOpcao);
-                    _con.SaveChanges();
-
-                    var novoEnunciado = new Enunciado
-                    {
-                        Descricao = opcao.Enunciado,
-                        idCategoria = opcao.idCategoria,
-                        idOpcao = novaOpcao.idOpcao
-                    };
-
-                    await _con.ENUNCIADOS.AddAsync(novoEnunciado);
-                    _con.SaveChanges();
-
-                    List<Opcao> opcoes = new List<Opcao>();
-                    foreach (var opcaoErrada in opcao.OpcoesErradas)
-                    {
-
-                        opcoes.Add(new Opcao
+                        var novaOpcao = new Opcao
                         {
-                            Descricao = opcaoErrada.Descricao,
-                            idCategoria = opcao.idCategoria
-                        });
+                            Descricao = opcao.OpcaoCorreta,
+                            idCategoria = opcao.idCategoria,
+                        };
+
+                        await _con.OPCAOES.AddAsync(novaOpcao);
+                        _con.SaveChanges();
+
+                        var novoEnunciado = new Enunciado
+                        {
+                            Descricao = opcao.Enunciado,
+                            idCategoria = opcao.idCategoria,
+                            idOpcao = novaOpcao.idOpcao
+                        };
+
+                        await _con.ENUNCIADOS.AddAsync(novoEnunciado);
+                        _con.SaveChanges();
+
+                        List<Opcao> opcoes = new List<Opcao>();
+                        foreach (var opcaoErrada in opcao.OpcoesErradas)
+                        {
+
+                            opcoes.Add(new Opcao
+                            {
+                                Descricao = opcaoErrada.Descricao,
+                                idCategoria = opcao.idCategoria
+                            });
 
 
+                        }
+                        await _con.OPCAOES.AddRangeAsync(opcoes);
+                        _con.SaveChanges();
                     }
-                    await _con.OPCAOES.AddRangeAsync(opcoes);
-                    _con.SaveChanges();
                 }
 
                 return true;
