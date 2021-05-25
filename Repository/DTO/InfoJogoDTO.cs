@@ -7,9 +7,10 @@ namespace Repository.DTO
 
     public class InfoJogoDTO
     {
-        public InfoJogador IndoJogador { get; set; }
         public bool Ativa { get; set; }
+        public int idPartida { get; set; }
         public string InfoMensagem { get; set; }
+        public InfoJogador InfoJogador { get; set; }
     }
 
     public class InfoJogador

@@ -15,7 +15,7 @@ namespace TeamNotationAPI.Controllers
     {
         private ILoginService _service { get; set; }
         private ITokenService _token { get; set; }
-    
+
         public LoginController(ILoginService service, ITokenService token)
         {
             _service = service;
@@ -33,8 +33,9 @@ namespace TeamNotationAPI.Controllers
                 {
 
                     return Ok(new MessageReturn("Login Efetuado Com Sucesso",
-                                                 _token.GenerateToken(LoginReturn),
-                                                true));
+                                                "",
+                                                true,
+                                                new LoginDTO(_token.GenerateToken(LoginReturn), LoginReturn.idUser, true)));
                 }
                 else
                 {

@@ -32,18 +32,21 @@ namespace Repository.Repository
                 await _con.STATUS.AddAsync(status);
                 _con.SaveChanges();
 
-                await _con.PARTIDAS.AddAsync(new Partida
+                var partida = new Partida
                 {
                     DataHoraInicio = DateTime.Now,
                     idStatus = status.idStatus
-                });
+                };
+
+                await _con.PARTIDAS.AddAsync(partida);
                 _con.SaveChanges();
 
                 InfoJogoDTO info = new InfoJogoDTO
                 {
                     Ativa = true,
                     InfoMensagem = "Sucesso ao iniciar partida",
-                    IndoJogador = new InfoJogador
+                    idPartida = partida.idPartida,
+                    InfoJogador = new InfoJogador
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
@@ -59,7 +62,7 @@ namespace Repository.Repository
                 {
                     Ativa = true,
                     InfoMensagem = "Não foi possível adicionar o jogador!",
-                    IndoJogador = new InfoJogador
+                    InfoJogador = new InfoJogador
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
@@ -98,7 +101,7 @@ namespace Repository.Repository
                 InfoJogoDTO info = new InfoJogoDTO
                 {
                     Ativa = true,
-                    IndoJogador = new InfoJogador
+                    InfoJogador = new InfoJogador
                     {
                         Nome = usuario.Nome,
                         QtdTapaDado = 0,
@@ -115,7 +118,7 @@ namespace Repository.Repository
                 {
                     Ativa = false,
                     InfoMensagem = "Não foi possível adicionar o jogador!",
-                    IndoJogador = new InfoJogador
+                    InfoJogador = new InfoJogador
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,

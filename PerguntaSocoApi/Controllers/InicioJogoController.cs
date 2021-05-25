@@ -21,23 +21,24 @@ namespace PerguntaSocoApi.Controllers
             _service = service;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post()
+        [HttpPost("/api​/iniciar-jogo")]
+        public async Task<IActionResult> IniciarJogo()
         {
-
-            if (await _service.IniciarJogo())
+            
+            try
             {
                 return Ok(new MessageReturn("Sucesso ao Iniciar Partida",
                                             "",
                                             true,
-                                            null));
-
+                                            await _service.IniciarJogo()));
             }
-            else
+            catch
             {
+
                 return BadRequest(new MessageReturn("Erro",
                                                       "Erro, por favor tente novamente mais tarde.",
                                                       false));
+
             }
 
         }
