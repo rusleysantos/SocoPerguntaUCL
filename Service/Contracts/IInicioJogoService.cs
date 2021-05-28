@@ -8,7 +8,7 @@ namespace Service.Contracts
 {
     public interface IInicioJogoService
     {
-        Task<InfoJogoDTO> IniciarJogo();
+        Task<InfoJogoDTO> IniciarJogo(int idUsuario);
         Task<InfoJogoDTO> AdicionarParticipante(SessaoDTO sessao);
     }
 }

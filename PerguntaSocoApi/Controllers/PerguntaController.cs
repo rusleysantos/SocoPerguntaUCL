@@ -20,9 +20,9 @@ namespace PerguntaSocoApi.Controllers
             _service = service;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] int idCategoria)
+        public async Task<IActionResult> Get([FromQuery] int idCategoria, int idUsuario, int idPartida)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace PerguntaSocoApi.Controllers
                 return Ok(new MessageReturn("Sucesso ao Consultar",
                                             "",
                                             true,
-                                            await _service.CriarPergunta(idCategoria)));
+                                            await _service.CriarPergunta(idCategoria, idUsuario, idPartida)));
 
             }
             catch (Exception e)
@@ -43,7 +43,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RespostaDTO resposta)
         {

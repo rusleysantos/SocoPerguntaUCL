@@ -25,7 +25,7 @@ namespace Repository.Models
 
         [Column("ID_USUARIO_PLACAR")]
         [ForeignKey("idUsuario")]
-        public Usuario Usuario { get; set; }
+        public virtual Usuario Usuario { get; set; }
         public int? idUsuario { get; set; }
 
 

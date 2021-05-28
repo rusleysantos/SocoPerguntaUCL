@@ -22,7 +22,7 @@ namespace Repository.Models
 
         [Column("ID_STATUS_PARTIDA")]
         [ForeignKey("idStatus")]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
         public int? idStatus { get; set; }
 
     }

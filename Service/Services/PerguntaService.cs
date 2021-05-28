@@ -16,12 +16,12 @@ namespace Service.Services
             _respository = respository;
         }
 
-        public Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria)
+        public Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria, int idUsuario, int idPartida)
         {
-            return _respository.CriarPergunta(idCategoria);
+            return _respository.CriarPergunta(idCategoria, idUsuario, idPartida);
         }
 
-        public Task<bool> ValidarResposta(RespostaDTO resposta)
+        public Task<InfoJogoDTO> ValidarResposta(RespostaDTO resposta)
         {
             return _respository.ValidarResposta(resposta);
         }

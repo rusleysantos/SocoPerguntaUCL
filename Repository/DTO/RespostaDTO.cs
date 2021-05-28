@@ -8,5 +8,7 @@ namespace Repository.DTO
     {
         public int idEnunciado { get; set; }
         public int idOpcao { get; set; }
+        public int idUsuario { get; set; }
+        public int idPartida { get; set; }
     }
 }

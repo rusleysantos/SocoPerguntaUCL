@@ -10,7 +10,7 @@ using Service.Contracts;
 namespace PerguntaSocoApi.Controllers
 {
 
-    [Route("api/iniciar-jogo")]
+    [Route("api/inicio")]
     public class InicioJogoController : Controller
     {
 
@@ -21,8 +21,8 @@ namespace PerguntaSocoApi.Controllers
             _service = service;
         }
 
-        [HttpPost("/api​/iniciar-jogo")]
-        public async Task<IActionResult> IniciarJogo()
+        [HttpPost("iniciar-jogo")]
+        public async Task<IActionResult> IniciarJogo([FromQuery] int idUsuario)
         {
             
             try
@@ -30,7 +30,7 @@ namespace PerguntaSocoApi.Controllers
                 return Ok(new MessageReturn("Sucesso ao Iniciar Partida",
                                             "",
                                             true,
-                                            await _service.IniciarJogo()));
+                                            await _service.IniciarJogo(idUsuario)));
             }
             catch
             {
@@ -43,7 +43,7 @@ namespace PerguntaSocoApi.Controllers
 
         }
 
-        [HttpPost("AdicionarJogador")]
+        [HttpPost("adicionar-jogador")]
         public async Task<IActionResult> AdicionarJogador([FromBody] SessaoDTO sessao)
         {
 

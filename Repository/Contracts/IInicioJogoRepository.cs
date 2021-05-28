@@ -8,7 +8,7 @@ namespace Repository.Contracts
 {
     public interface IInicioJogoRepository
     {
-        Task<InfoJogoDTO> IniciarJogo();
+        Task<InfoJogoDTO> IniciarJogo(int idUsuario);
         Task<InfoJogoDTO> AdicionarParticipante(SessaoDTO sessao);
     }
 }

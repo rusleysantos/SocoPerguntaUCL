@@ -19,11 +19,18 @@ namespace Repository.Repository
             _con = con;
         }
 
-        public async Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria)
+        public async Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria, int idUsuario, int idPartida)
         {
             List<OpcaoDTO> listOpcoes = new List<OpcaoDTO>();
             List<PerguntaDTO> pergunta = new List<PerguntaDTO>();
             Random rand = new Random();
+
+            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
+                                    .Include(y => y.Status)
+                                        .ThenInclude(r => r.Placar).FirstAsync();
+            partida.Status.VezResponder = true;
+
+            _con.SaveChanges();
 
             EnunciadoDTO enunciado = await _con
                                             .ENUNCIADOS
@@ -77,8 +84,25 @@ namespace Repository.Repository
 
         }
 
-        public async Task<bool> ValidarResposta(RespostaDTO resposta)
+        public async Task<InfoJogoDTO> ValidarResposta(RespostaDTO resposta)
         {
+            var info = new InfoJogoDTO
+            {
+                Ativa = true,
+                idPartida = 0,
+                InfoPergunta = new InfoPerguntaDTO
+                {
+                    RespostaJogador = false,
+                },
+                InfoJogador = new InfoJogadorDTO
+                {
+                    QtdTapaDado = 0,
+                    QtdTapaRecebido = 0,
+                    Nome = "",
+                    Porntuacao = 0
+                }
+            };
+
             var enunciado = await _con.ENUNCIADOS
                                     .Where(x => x.idEnunciado == resposta.idEnunciado)
                                     .FirstOrDefaultAsync();
@@ -87,13 +111,41 @@ namespace Repository.Repository
                                     .Where(x => x.idOpcao == resposta.idOpcao)
                                     .FirstOrDefaultAsync();
 
+            var partidaUsuario = await _con.PARTIDAS.Where(x => x.idPartida == resposta.idPartida)
+                                .Include(y => y.Status)
+                                    .ThenInclude(r => r.Placar).FirstAsync();
+
+            info.InfoJogador.QtdTapaDado = partidaUsuario.Status.Placar.QtdTapaDado;
+            info.InfoJogador.QtdTapaRecebido = partidaUsuario.Status.Placar.QtdTapaRecebido;
+            info.InfoJogador.Porntuacao = partidaUsuario.Status.Placar.Porntuacao;
+
+
+            var partida = await _con.PARTIDAS.Where(x => x.idPartida == resposta.idPartida &&
+                                                     x.Status.Placar.idUsuario == resposta.idUsuario)
+                                                      .Include(y => y.Status)
+                                                          .ThenInclude(r => r.Placar).FirstAsync();
+            partida.Status.VezResponder = false;
+
+            _con.SaveChanges();
+
+
             if (enunciado.idOpcao == opcao.idOpcao)
             {
-                return true;
+                info.InfoPergunta.RespostaJogador = true;
+                info.InfoJogador.QtdTapaDado = partidaUsuario.Status.Placar.QtdTapaDado++;
+                info.InfoJogador.Porntuacao = partidaUsuario.Status.Placar.Porntuacao++;
+
+                _con.PARTIDAS.Update(partidaUsuario);
+                _con.SaveChanges();
+
+                return info;
             }
             else
             {
-                return false;
+                info.InfoJogador.QtdTapaRecebido = partidaUsuario.Status.Placar.QtdTapaRecebido++;
+                _con.SaveChanges();
+
+                return info;
             }
         }
 

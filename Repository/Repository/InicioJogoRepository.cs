@@ -20,13 +20,24 @@ namespace Repository.Repository
             _con = con;
         }
 
-        public async Task<InfoJogoDTO> IniciarJogo()
+        public async Task<InfoJogoDTO> IniciarJogo(int idUsuario)
         {
             try
             {
+                var placar = new Placar
+                {
+                    Porntuacao = 0,
+                    QtdTapaDado = 0,
+                    QtdTapaRecebido = 0,
+                    idUsuario = idUsuario
+                };
+                await _con.PLACARES.AddAsync(placar);
+                _con.SaveChanges();
+
                 var status = new Status
                 {
-                    Ativa = true
+                    Ativa = true,
+                    idPlacar = placar.idPlacar
                 };
 
                 await _con.STATUS.AddAsync(status);
@@ -41,12 +52,20 @@ namespace Repository.Repository
                 await _con.PARTIDAS.AddAsync(partida);
                 _con.SaveChanges();
 
+                await _con.SESSOES.AddAsync(new Sessao
+                {
+                    idUsuario = idUsuario,
+                    idPartida = partida.idPartida
+                });
+
+                _con.SaveChanges();
+
                 InfoJogoDTO info = new InfoJogoDTO
                 {
                     Ativa = true,
                     InfoMensagem = "Sucesso ao iniciar partida",
                     idPartida = partida.idPartida,
-                    InfoJogador = new InfoJogador
+                    InfoJogador = new InfoJogadorDTO
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
@@ -62,7 +81,7 @@ namespace Repository.Repository
                 {
                     Ativa = true,
                     InfoMensagem = "Não foi possível adicionar o jogador!",
-                    InfoJogador = new InfoJogador
+                    InfoJogador = new InfoJogadorDTO
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
@@ -101,7 +120,7 @@ namespace Repository.Repository
                 InfoJogoDTO info = new InfoJogoDTO
                 {
                     Ativa = true,
-                    InfoJogador = new InfoJogador
+                    InfoJogador = new InfoJogadorDTO
                     {
                         Nome = usuario.Nome,
                         QtdTapaDado = 0,
@@ -118,7 +137,7 @@ namespace Repository.Repository
                 {
                     Ativa = false,
                     InfoMensagem = "Não foi possível adicionar o jogador!",
-                    InfoJogador = new InfoJogador
+                    InfoJogador = new InfoJogadorDTO
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,

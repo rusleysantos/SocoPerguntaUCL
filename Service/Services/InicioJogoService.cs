@@ -16,9 +16,9 @@ namespace Service.Services
             _respository = respository;
         }
 
-        public Task<InfoJogoDTO> IniciarJogo()
+        public Task<InfoJogoDTO> IniciarJogo(int idUsuario)
         {
-            return _respository.IniciarJogo();
+            return _respository.IniciarJogo(idUsuario);
         }
 
         public Task<InfoJogoDTO> AdicionarParticipante(SessaoDTO sessao)
