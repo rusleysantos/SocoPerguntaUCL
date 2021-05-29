@@ -25,5 +25,10 @@ namespace Repository.Models
         public virtual Status Status { get; set; }
         public int? idStatus { get; set; }
 
+        [Column("ID_CATEGORIA_PARTIDA")]
+        [ForeignKey("idCategoria")]
+        public virtual Categoria Categoria { get; set; }
+        public int? idCategoria { get; set; }
+
     }
 }

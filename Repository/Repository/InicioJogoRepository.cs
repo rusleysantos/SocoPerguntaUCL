@@ -20,7 +20,7 @@ namespace Repository.Repository
             _con = con;
         }
 
-        public async Task<InfoJogoDTO> IniciarJogo(int idUsuario)
+        public async Task<InfoJogoDTO> IniciarJogo(int idUsuario, int idCategoria)
         {
             try
             {
@@ -46,7 +46,9 @@ namespace Repository.Repository
                 var partida = new Partida
                 {
                     DataHoraInicio = DateTime.Now,
-                    idStatus = status.idStatus
+                    idStatus = status.idStatus,
+                    idCategoria = idCategoria
+                    
                 };
 
                 await _con.PARTIDAS.AddAsync(partida);
@@ -97,9 +99,7 @@ namespace Repository.Repository
         {
             var usuario = await _con.USUARIOS.Where(x => x.idUsuario == sessao.idUsuario).FirstAsync();
             var sessaoJogo = await _con.SESSOES.Where(x => x.idPartida == sessao.idPartida).ToListAsync();
-            var rodada = await _con.RODADAS.Where(x => x.idPartida == sessao.idPartida)
-                                            .Include(y => y.Pergunta)
-                                            .FirstAsync();
+            var partida = await _con.PARTIDAS.Where(x => x.idPartida == sessao.idPartida).FirstAsync();
 
             if (usuario != null && sessaoJogo.Count() <= 2)
             {
@@ -133,7 +133,7 @@ namespace Repository.Repository
                     },
                     InfoPergunta = new InfoPerguntaDTO
                     {
-                        idCategoria = rodada.Pergunta.Enunciado.idCategoria.Value,
+                        idCategoria = partida.idCategoria.Value,
                     }
 
                 };

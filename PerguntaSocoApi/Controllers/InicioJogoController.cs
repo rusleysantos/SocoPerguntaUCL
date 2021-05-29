@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Domain.Domains;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.DTO;
 using Service.Contracts;
@@ -22,15 +21,16 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpPost("iniciar-jogo")]
-        public async Task<IActionResult> IniciarJogo([FromQuery] int idUsuario)
+        [Authorize]
+        public async Task<IActionResult> IniciarJogo([FromQuery] int idUsuario, int idCategoria)
         {
-            
+
             try
             {
                 return Ok(new MessageReturn("Sucesso ao Iniciar Partida",
                                             "",
                                             true,
-                                            await _service.IniciarJogo(idUsuario)));
+                                            await _service.IniciarJogo(idUsuario, idCategoria)));
             }
             catch
             {
@@ -44,6 +44,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
         [HttpPost("adicionar-jogador")]
+        [Authorize]
         public async Task<IActionResult> AdicionarJogador([FromBody] SessaoDTO sessao)
         {
 
@@ -55,7 +56,7 @@ namespace PerguntaSocoApi.Controllers
                                             await _service.AdicionarParticipante(sessao)));
 
             }
-            catch
+            catch (Exception e)
             {
                 return BadRequest(new MessageReturn("Erro",
                                                       "Erro, por favor tente novamente mais tarde.",
