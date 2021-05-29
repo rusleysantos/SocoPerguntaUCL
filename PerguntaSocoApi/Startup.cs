@@ -76,6 +76,9 @@ namespace PerguntaSocoApi
             services.AddScoped<IInicioJogoService, InicioJogoService>();
             services.AddScoped<IInicioJogoRepository, InicioJogoRepository>();
 
+            services.AddScoped<ISemaforoRepository, SemaforoRepository>();
+            services.AddScoped<ISemaforoService, SemaforoService>();
+
             services.AddDbContext<Context>(options =>
                options.UseSqlServer(
                Configuration.GetConnectionString("ConnDB")));

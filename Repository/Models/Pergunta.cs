@@ -16,7 +16,7 @@ namespace Repository.Models
 
         [Column("ID_ENUNCIADO_PERGUNTA")]
         [ForeignKey("idEnunciado")]
-        public Enunciado Enunciado { get; set; }
+        public virtual Enunciado Enunciado { get; set; }
         public int? idEnunciado { get; set; }
 
         [Column("ID_OPCAO_PERGUNTA")]

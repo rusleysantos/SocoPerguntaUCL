@@ -20,7 +20,8 @@ namespace PerguntaSocoApi.Controllers
             _service = service;
         }
 
-        //[Authorize]
+        
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int idCategoria, int idUsuario, int idPartida)
         {
@@ -43,7 +44,7 @@ namespace PerguntaSocoApi.Controllers
         }
 
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RespostaDTO resposta)
         {

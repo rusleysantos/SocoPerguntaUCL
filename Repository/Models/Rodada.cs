@@ -21,7 +21,7 @@ namespace Repository.Models
 
         [Column("ID_PERGUNTA_RODADA")]
         [ForeignKey("idPergunta")]
-        public Pergunta Pergunta { get; set; }
+        public virtual Pergunta Pergunta { get; set; }
         public int? idPergunta { get; set; }
 
     }

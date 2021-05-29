@@ -69,7 +69,7 @@ namespace Repository.Repository
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
-                        Porntuacao = 0
+                        Pontuacao = 0
                     }
                 };
 
@@ -85,7 +85,7 @@ namespace Repository.Repository
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
-                        Porntuacao = 0
+                        Pontuacao = 0
                     }
                 };
 
@@ -97,6 +97,9 @@ namespace Repository.Repository
         {
             var usuario = await _con.USUARIOS.Where(x => x.idUsuario == sessao.idUsuario).FirstAsync();
             var sessaoJogo = await _con.SESSOES.Where(x => x.idPartida == sessao.idPartida).ToListAsync();
+            var rodada = await _con.RODADAS.Where(x => x.idPartida == sessao.idPartida)
+                                            .Include(y => y.Pergunta)
+                                            .FirstAsync();
 
             if (usuario != null && sessaoJogo.Count() <= 2)
             {
@@ -120,13 +123,19 @@ namespace Repository.Repository
                 InfoJogoDTO info = new InfoJogoDTO
                 {
                     Ativa = true,
+                    idPartida = sessao.idPartida,
                     InfoJogador = new InfoJogadorDTO
                     {
                         Nome = usuario.Nome,
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
-                        Porntuacao = 0
+                        Pontuacao = 0
+                    },
+                    InfoPergunta = new InfoPerguntaDTO
+                    {
+                        idCategoria = rodada.Pergunta.Enunciado.idCategoria.Value,
                     }
+
                 };
 
                 return info;
@@ -141,7 +150,7 @@ namespace Repository.Repository
                     {
                         QtdTapaDado = 0,
                         QtdTapaRecebido = 0,
-                        Porntuacao = 0,
+                        Pontuacao = 0,
                     }
                 };
 

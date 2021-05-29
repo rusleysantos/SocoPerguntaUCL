@@ -22,7 +22,7 @@ namespace Repository.Models
 
         [Column("ID_CATEGORIA_ENUNCIADO")]
         [ForeignKey("idCategoria")]
-        public Categoria Categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
         public int? idCategoria { get; set; }
 
         [Column("ID_SUB_CATEGORIA_ENUNCIADO")]

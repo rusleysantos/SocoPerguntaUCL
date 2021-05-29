@@ -22,7 +22,10 @@ namespace Repository.Repository
         public async Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria, int idUsuario, int idPartida)
         {
             List<OpcaoDTO> listOpcoes = new List<OpcaoDTO>();
-            List<PerguntaDTO> pergunta = new List<PerguntaDTO>();
+            List<PerguntaDTO> perguntas = new List<PerguntaDTO>();
+            List<Pergunta> perguntasInsercao = new List<Pergunta>();
+            List<Rodada> listaRodadas = new List<Rodada>();
+
             Random rand = new Random();
 
             var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
@@ -74,13 +77,41 @@ namespace Repository.Repository
                                 ).FirstAsync());
 
 
-            pergunta.Add(new PerguntaDTO
+            perguntas.Add(new PerguntaDTO
             {
                 EnunciadoPergunta = enunciado,
                 ListaOpcoes = listOpcoes.OrderBy(a => rand.Next()).ToList()
             });
 
-            return pergunta;
+            foreach (var pergunta in perguntas)
+            {
+                foreach (var opcao in pergunta.ListaOpcoes)
+                {
+                    perguntasInsercao.Add(new Pergunta
+                    {
+                        idEnunciado = pergunta.EnunciadoPergunta.idEnunciado,
+                        idOpcao = opcao.idOpcao
+                    });
+                }
+            }
+
+            await _con.PERGUNTAS.AddRangeAsync(perguntasInsercao);
+            _con.SaveChanges();
+
+
+            foreach (var rodada in perguntasInsercao)
+            {
+                listaRodadas.Add(new Rodada
+                {
+                    idPartida = idPartida,
+                    idPergunta = rodada.idPergunta
+                });
+            }
+
+            await _con.RODADAS.AddRangeAsync(listaRodadas);
+            _con.SaveChanges();
+
+            return perguntas;
 
         }
 
@@ -92,14 +123,14 @@ namespace Repository.Repository
                 idPartida = 0,
                 InfoPergunta = new InfoPerguntaDTO
                 {
-                    RespostaJogador = false,
+                    RespostaJogadorCorreta = false,
                 },
                 InfoJogador = new InfoJogadorDTO
                 {
                     QtdTapaDado = 0,
                     QtdTapaRecebido = 0,
                     Nome = "",
-                    Porntuacao = 0
+                    Pontuacao = 0
                 }
             };
 
@@ -117,7 +148,7 @@ namespace Repository.Repository
 
             info.InfoJogador.QtdTapaDado = partidaUsuario.Status.Placar.QtdTapaDado;
             info.InfoJogador.QtdTapaRecebido = partidaUsuario.Status.Placar.QtdTapaRecebido;
-            info.InfoJogador.Porntuacao = partidaUsuario.Status.Placar.Porntuacao;
+            info.InfoJogador.Pontuacao = partidaUsuario.Status.Placar.Porntuacao;
 
 
             var partida = await _con.PARTIDAS.Where(x => x.idPartida == resposta.idPartida &&
@@ -131,9 +162,9 @@ namespace Repository.Repository
 
             if (enunciado.idOpcao == opcao.idOpcao)
             {
-                info.InfoPergunta.RespostaJogador = true;
+                info.InfoPergunta.RespostaJogadorCorreta = true;
                 info.InfoJogador.QtdTapaDado = partidaUsuario.Status.Placar.QtdTapaDado++;
-                info.InfoJogador.Porntuacao = partidaUsuario.Status.Placar.Porntuacao++;
+                info.InfoJogador.Pontuacao = partidaUsuario.Status.Placar.Porntuacao++;
 
                 _con.PARTIDAS.Update(partidaUsuario);
                 _con.SaveChanges();
