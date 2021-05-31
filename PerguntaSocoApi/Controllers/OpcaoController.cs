@@ -13,6 +13,7 @@ namespace PerguntaSocoApi.Controllers
     [Route("api/opcao")]
     public class OpcaoController : Controller
     {
+
         private IOpcaoService _service { get; }
 
         public OpcaoController(IOpcaoService service)
