@@ -20,11 +20,6 @@ namespace Repository.Models
         [Column("DATA_HORA_FIM")]
         public DateTime DataHoraFim { get; set; }
 
-        [Column("ID_STATUS_PARTIDA")]
-        [ForeignKey("idStatus")]
-        public virtual Status Status { get; set; }
-        public int? idStatus { get; set; }
-
         [Column("ID_CATEGORIA_PARTIDA")]
         [ForeignKey("idCategoria")]
         public virtual Categoria Categoria { get; set; }

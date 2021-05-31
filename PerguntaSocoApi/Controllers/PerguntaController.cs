@@ -23,7 +23,7 @@ namespace PerguntaSocoApi.Controllers
         
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] int idCategoria, int idUsuario, int idPartida)
+        public async Task<IActionResult> Get([FromQuery] int idUsuario, int idPartida)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace PerguntaSocoApi.Controllers
                 return Ok(new MessageReturn("Sucesso ao Consultar",
                                             "",
                                             true,
-                                            await _service.CriarPergunta(idCategoria, idUsuario, idPartida)));
+                                            await _service.CriarPergunta(idUsuario, idPartida)));
 
             }
             catch (Exception e)

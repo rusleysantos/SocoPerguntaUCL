@@ -26,7 +26,7 @@ namespace Repository.Repository
             {
                 var placar = new Placar
                 {
-                    Porntuacao = 0,
+                    Pontuacao = 0,
                     QtdTapaDado = 0,
                     QtdTapaRecebido = 0,
                     idUsuario = idUsuario
@@ -37,7 +37,8 @@ namespace Repository.Repository
                 var status = new Status
                 {
                     Ativa = true,
-                    idPlacar = placar.idPlacar
+                    idPlacar = placar.idPlacar,
+                    VezResponder = true
                 };
 
                 await _con.STATUS.AddAsync(status);
@@ -46,9 +47,7 @@ namespace Repository.Repository
                 var partida = new Partida
                 {
                     DataHoraInicio = DateTime.Now,
-                    idStatus = status.idStatus,
                     idCategoria = idCategoria
-                    
                 };
 
                 await _con.PARTIDAS.AddAsync(partida);
@@ -57,7 +56,8 @@ namespace Repository.Repository
                 await _con.SESSOES.AddAsync(new Sessao
                 {
                     idUsuario = idUsuario,
-                    idPartida = partida.idPartida
+                    idPartida = partida.idPartida,
+                    idStatus = status.idStatus
                 });
 
                 _con.SaveChanges();
@@ -104,18 +104,32 @@ namespace Repository.Repository
             if (usuario != null && sessaoJogo.Count() <= 2)
             {
 
-                await _con.SESSOES.AddAsync(new Sessao
-                {
-                    idUsuario = sessao.idUsuario,
-                    idPartida = sessao.idPartida
-                });
-
-                await _con.PLACARES.AddAsync(new Placar
+                var placar = new Placar
                 {
                     idUsuario = sessao.idUsuario,
                     QtdTapaDado = 0,
                     QtdTapaRecebido = 0,
-                    Porntuacao = 0
+                    Pontuacao = 0
+                };
+
+                await _con.PLACARES.AddAsync(placar);
+                _con.SaveChanges();
+
+                var status = new Status
+                {
+                    Ativa = true,
+                    idPlacar = placar.idPlacar,
+                    VezResponder = false
+                };
+
+                await _con.STATUS.AddAsync(status);
+                _con.SaveChanges();
+
+                await _con.SESSOES.AddAsync(new Sessao
+                {
+                    idUsuario = sessao.idUsuario,
+                    idPartida = sessao.idPartida,
+                    idStatus = status.idStatus
                 });
 
                 _con.SaveChanges();

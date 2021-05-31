@@ -16,9 +16,9 @@ namespace Service.Services
             _respository = respository;
         }
 
-        public Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria, int idUsuario, int idPartida)
+        public Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idUsuario, int idPartida)
         {
-            return _respository.CriarPergunta(idCategoria, idUsuario, idPartida);
+            return _respository.CriarPergunta(idUsuario, idPartida);
         }
 
         public Task<InfoJogoDTO> ValidarResposta(RespostaDTO resposta)

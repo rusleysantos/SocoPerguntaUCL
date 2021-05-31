@@ -15,7 +15,7 @@ namespace Repository.Models
         public int idPlacar { get; set; }
 
         [Column("PONTUACAO")]
-        public int Porntuacao { get; set; }
+        public int Pontuacao { get; set; }
 
         [Column("QTD_TAPA_RECEBIDO")]
         public int QtdTapaRecebido { get; set; }

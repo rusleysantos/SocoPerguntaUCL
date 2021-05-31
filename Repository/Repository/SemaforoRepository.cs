@@ -21,14 +21,24 @@ namespace Repository.Repository
 
         public async Task<InfoJogoDTO> FinalizarPartida(int idPartida)
         {
-            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida)
-                                    .Include(y => y.Status)
-                                    .FirstAsync();
+            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida).FirstAsync();
 
             partida.DataHoraFim = DateTime.Now;
-            partida.Status.Ativa = false;
 
             _con.PARTIDAS.Update(partida);
+            _con.SaveChanges();
+
+            var sessoes = await _con.SESSOES
+                                    .Where(x => x.idPartida == idPartida)
+                                    .Include(y => y.Status)
+                                    .ToListAsync();
+
+            foreach (var sessao in sessoes)
+            {
+                sessao.Status.Ativa = false;
+            }
+
+            _con.SESSOES.UpdateRange(sessoes);
             _con.SaveChanges();
 
             return new InfoJogoDTO
@@ -41,33 +51,33 @@ namespace Repository.Repository
 
         public async Task<InfoJogoDTO> VerificarPartidaAtiva(int idPartida)
         {
-            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida)
+            var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida)
                                    .Include(y => y.Status)
                                    .FirstAsync();
 
             return new InfoJogoDTO
             {
-                Ativa = partida.Status.Ativa,
-                idPartida = partida.idPartida,
+                Ativa = sessao.Status.Ativa,
+                idPartida = sessao.idPartida.Value,
             };
         }
 
         public async Task<InfoJogoDTO> VerificarVezResposta(int idUsuario, int idPartida)
         {
-            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
+            var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
                                  .Include(y => y.Status)
                                      .ThenInclude(r => r.Placar)
                                      .ThenInclude(y => y.Usuario).FirstAsync();
 
             return new InfoJogoDTO
             {
-                Ativa = partida.Status.Ativa,
-                idPartida = partida.idPartida,
+                Ativa = sessao.Status.Ativa,
+                idPartida = sessao.idPartida.Value,
                 InfoJogador = new InfoJogadorDTO
                 {
-                    idUsuario = partida.Status.Placar.idUsuario.Value,
-                    Nome = partida.Status.Placar.Usuario.Nome,
-                    VezResponder = partida.Status.VezResponder
+                    idUsuario = sessao.Status.Placar.idUsuario.Value,
+                    Nome = sessao.Status.Placar.Usuario.Nome,
+                    VezResponder = sessao.Status.VezResponder
                 }
             };
         }

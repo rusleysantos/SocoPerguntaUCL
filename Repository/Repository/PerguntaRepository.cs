@@ -19,7 +19,7 @@ namespace Repository.Repository
             _con = con;
         }
 
-        public async Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idCategoria, int idUsuario, int idPartida)
+        public async Task<IEnumerable<PerguntaDTO>> CriarPergunta(int idUsuario, int idPartida)
         {
             List<OpcaoDTO> listOpcoes = new List<OpcaoDTO>();
             List<PerguntaDTO> perguntas = new List<PerguntaDTO>();
@@ -28,16 +28,20 @@ namespace Repository.Repository
 
             Random rand = new Random();
 
-            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
+            var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
                                     .Include(y => y.Status)
                                         .ThenInclude(r => r.Placar).FirstAsync();
-            partida.Status.VezResponder = true;
 
+            sessao.Status.VezResponder = true;
             _con.SaveChanges();
+
+            var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida)
+                                    .Include(y => y.Categoria)
+                                    .FirstAsync();
 
             EnunciadoDTO enunciado = await _con
                                             .ENUNCIADOS
-                                            .Where(x => x.Categoria.idCategoria == idCategoria)
+                                            .Where(x => x.Categoria.idCategoria == partida.idCategoria)
                                             .Select(
                                                     x =>
                                                     new EnunciadoDTO
@@ -51,7 +55,7 @@ namespace Repository.Repository
 
             listOpcoes = await _con
                                 .OPCAOES
-                                .Where(x => x.Categoria.idCategoria == idCategoria && x.idOpcao != enunciado.idOpcaoCorreta)
+                                .Where(x => x.Categoria.idCategoria == partida.idPartida && x.idOpcao != enunciado.idOpcaoCorreta)
                                 .Select(
                                         x =>
                                         new OpcaoDTO
@@ -142,31 +146,45 @@ namespace Repository.Repository
                                     .Where(x => x.idOpcao == resposta.idOpcao)
                                     .FirstOrDefaultAsync();
 
-            var partidaUsuario = await _con.PARTIDAS.Where(x => x.idPartida == resposta.idPartida)
-                                .Include(y => y.Status)
-                                    .ThenInclude(r => r.Placar).FirstAsync();
+            var partidaUsuario = await _con.SESSOES.Where(x => x.idPartida == resposta.idPartida)
+                                                    .Include(y => y.Status)
+                                                    .ThenInclude(r => r.Placar)
+                                                    .FirstAsync();
 
             info.InfoJogador.QtdTapaDado = partidaUsuario.Status.Placar.QtdTapaDado;
             info.InfoJogador.QtdTapaRecebido = partidaUsuario.Status.Placar.QtdTapaRecebido;
-            info.InfoJogador.Pontuacao = partidaUsuario.Status.Placar.Porntuacao;
+            info.InfoJogador.Pontuacao = partidaUsuario.Status.Placar.Pontuacao;
 
 
-            var partida = await _con.PARTIDAS.Where(x => x.idPartida == resposta.idPartida &&
-                                                     x.Status.Placar.idUsuario == resposta.idUsuario)
-                                                      .Include(y => y.Status)
-                                                          .ThenInclude(r => r.Placar).FirstAsync();
-            partida.Status.VezResponder = false;
+            var sessoes = await _con.SESSOES.Where(x => x.idPartida == resposta.idPartida)
+                                   .Include(y => y.Status)
+                                       .ThenInclude(r => r.Placar)
+                                       .ThenInclude(q => q.Usuario).ToListAsync();
 
-            _con.SaveChanges();
+            foreach (var sessao in sessoes)
+            {
+                if (sessao.idUsuario != resposta.idUsuario)
+                {
+                    sessao.Status.VezResponder = true;
+                }
+                else
+                {
+                    sessao.Status.VezResponder = false;
+                }
 
+                _con.SESSOES.Update(sessao);
+                _con.SaveChanges();
+            }
 
             if (enunciado.idOpcao == opcao.idOpcao)
             {
                 info.InfoPergunta.RespostaJogadorCorreta = true;
-                info.InfoJogador.QtdTapaDado = partidaUsuario.Status.Placar.QtdTapaDado++;
-                info.InfoJogador.Pontuacao = partidaUsuario.Status.Placar.Porntuacao++;
+                info.InfoJogador.QtdTapaDado++;
+                partidaUsuario.Status.Placar.QtdTapaDado++;
+                info.InfoJogador.Pontuacao++;
+                partidaUsuario.Status.Placar.Pontuacao++;
 
-                _con.PARTIDAS.Update(partidaUsuario);
+                _con.SESSOES.Update(partidaUsuario);
                 _con.SaveChanges();
 
                 return info;

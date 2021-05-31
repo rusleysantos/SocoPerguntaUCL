@@ -24,7 +24,5 @@ namespace Repository.Models
         [ForeignKey("idPlacar")]
         public virtual Placar Placar { get; set; }
         public int? idPlacar { get; set; }
-
-
     }
 }
