@@ -27,12 +27,14 @@ namespace Repository.Repository
             List<Rodada> listaRodadas = new List<Rodada>();
 
             Random rand = new Random();
-
+           
             var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
                                     .Include(y => y.Status)
                                         .ThenInclude(r => r.Placar).FirstAsync();
 
             sessao.Status.VezResponder = true;
+
+            _con.SESSOES.Update(sessao);
             _con.SaveChanges();
 
             var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida)
@@ -55,7 +57,7 @@ namespace Repository.Repository
 
             listOpcoes = await _con
                                 .OPCAOES
-                                .Where(x => x.Categoria.idCategoria == partida.idPartida && x.idOpcao != enunciado.idOpcaoCorreta)
+                                .Where(x => x.Categoria.idCategoria == partida.idCategoria && x.idOpcao != enunciado.idOpcaoCorreta)
                                 .Select(
                                         x =>
                                         new OpcaoDTO
@@ -80,7 +82,6 @@ namespace Repository.Repository
                                         }
                                 ).FirstAsync());
 
-
             perguntas.Add(new PerguntaDTO
             {
                 EnunciadoPergunta = enunciado,
@@ -101,7 +102,6 @@ namespace Repository.Repository
 
             await _con.PERGUNTAS.AddRangeAsync(perguntasInsercao);
             _con.SaveChanges();
-
 
             foreach (var rodada in perguntasInsercao)
             {
