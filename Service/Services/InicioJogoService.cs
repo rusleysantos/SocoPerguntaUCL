@@ -25,5 +25,10 @@ namespace Service.Services
         {
             return _respository.AdicionarParticipante(sessao);
         }
+
+        public Task<List<PartidaAtivaDTO>> ListarPartidas()
+        {
+            return _respository.ListarPartidas();
+        }
     }
 }

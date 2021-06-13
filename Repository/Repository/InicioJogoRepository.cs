@@ -129,7 +129,7 @@ namespace Repository.Repository
                 {
                     idUsuario = sessao.idUsuario,
                     idPartida = sessao.idPartida,
-                    idStatus = status.idStatus
+                    idStatus = status.idStatus,
                 });
 
                 _con.SaveChanges();
@@ -170,6 +170,19 @@ namespace Repository.Repository
 
                 return info;
             }
+        }
+
+        public Task<List<PartidaAtivaDTO>> ListarPartidas()
+        {
+
+            return _con.PARTIDAS.Where(x => x.DataHoraFim == new DateTime(0001, 01, 01))
+                                .Select(y => new PartidaAtivaDTO
+                                {
+                                    idPartida = y.idPartida,
+                                    Categoria = y.Categoria.Descricao,
+                                    InicioPartida = y.DataHoraInicio,
+                                    QuantidadeParticipantes = _con.SESSOES.Where(r => r.idPartida == y.idPartida).Count()
+                                }).ToListAsync();
         }
     }
 }

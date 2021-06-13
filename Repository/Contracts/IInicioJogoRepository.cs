@@ -10,5 +10,6 @@ namespace Repository.Contracts
     {
         Task<InfoJogoDTO> IniciarJogo(int idUsuario, int idCategoria);
         Task<InfoJogoDTO> AdicionarParticipante(SessaoDTO sessao);
+        Task<List<PartidaAtivaDTO>> ListarPartidas();
     }
 }

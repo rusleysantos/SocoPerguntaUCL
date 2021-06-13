@@ -27,7 +27,7 @@ namespace Repository.Repository
             List<Rodada> listaRodadas = new List<Rodada>();
 
             Random rand = new Random();
-           
+
             var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
                                     .Include(y => y.Status)
                                         .ThenInclude(r => r.Placar).FirstAsync();
@@ -35,7 +35,7 @@ namespace Repository.Repository
             sessao.Status.VezResponder = true;
 
             _con.SESSOES.Update(sessao);
-            _con.SaveChanges();
+            await _con.SaveChangesAsync();
 
             var partida = await _con.PARTIDAS.Where(x => x.idPartida == idPartida)
                                     .Include(y => y.Categoria)
@@ -101,7 +101,7 @@ namespace Repository.Repository
             }
 
             await _con.PERGUNTAS.AddRangeAsync(perguntasInsercao);
-            _con.SaveChanges();
+            await _con.SaveChangesAsync();
 
             foreach (var rodada in perguntasInsercao)
             {
@@ -113,7 +113,7 @@ namespace Repository.Repository
             }
 
             await _con.RODADAS.AddRangeAsync(listaRodadas);
-            _con.SaveChanges();
+            await _con.SaveChangesAsync();
 
             return perguntas;
 
@@ -121,6 +121,8 @@ namespace Repository.Repository
 
         public async Task<InfoJogoDTO> ValidarResposta(RespostaDTO resposta)
         {
+            string log = "O jogador {0} {1} a pergunta";
+
             var info = new InfoJogoDTO
             {
                 Ativa = true,
@@ -173,7 +175,7 @@ namespace Repository.Repository
                 }
 
                 _con.SESSOES.Update(sessao);
-                _con.SaveChanges();
+                await _con.SaveChangesAsync();
             }
 
             if (enunciado.idOpcao == opcao.idOpcao)
@@ -185,14 +187,20 @@ namespace Repository.Repository
                 partidaUsuario.Status.Placar.Pontuacao++;
 
                 _con.SESSOES.Update(partidaUsuario);
-                _con.SaveChanges();
+                await _con.SaveChangesAsync();
+
+                //_con.LOG_PARTIDA.Add(new LogPartida
+                //{
+                //    Descricao = String.Format(log,)
+                //    idPartida = resposta.idPartida
+                //});
 
                 return info;
             }
             else
             {
                 info.InfoJogador.QtdTapaRecebido = partidaUsuario.Status.Placar.QtdTapaRecebido++;
-                _con.SaveChanges();
+                await _con.SaveChangesAsync();
 
                 return info;
             }
@@ -213,7 +221,7 @@ namespace Repository.Repository
                         };
 
                         await _con.OPCAOES.AddAsync(novaOpcao);
-                        _con.SaveChanges();
+                        await _con.SaveChangesAsync();
 
                         var novoEnunciado = new Enunciado
                         {
@@ -223,7 +231,7 @@ namespace Repository.Repository
                         };
 
                         await _con.ENUNCIADOS.AddAsync(novoEnunciado);
-                        _con.SaveChanges();
+                        await _con.SaveChangesAsync();
 
                         List<Opcao> opcoes = new List<Opcao>();
                         foreach (var opcaoErrada in opcao.OpcoesErradas)
@@ -238,7 +246,7 @@ namespace Repository.Repository
 
                         }
                         await _con.OPCAOES.AddRangeAsync(opcoes);
-                        _con.SaveChanges();
+                        await _con.SaveChangesAsync();
                     }
                 }
 

@@ -64,5 +64,28 @@ namespace PerguntaSocoApi.Controllers
             }
 
         }
+
+        [HttpGet("listar-partidas")]
+        //[Authorize]
+        public async Task<IActionResult> ListarPartidas()
+        {
+
+            try
+            {
+                return Ok(new MessageReturn("Sucesso ao Listar Partidas",
+                                            "",
+                                            true,
+                                            await _service.ListarPartidas()));
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new MessageReturn("Erro",
+                                                    "Erro, por favor tente novamente mais tarde.",
+                                                    false));
+            }
+
+        }
+
     }
 }
