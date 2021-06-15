@@ -79,6 +79,9 @@ namespace PerguntaSocoApi
             services.AddScoped<ISemaforoRepository, SemaforoRepository>();
             services.AddScoped<ISemaforoService, SemaforoService>();
 
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IChatService, ChatService>();
+
             services.AddDbContext<Context>(options =>
                options.UseSqlServer(
                Configuration.GetConnectionString("ConnDB")));

@@ -64,10 +64,9 @@ namespace Repository.Repository
 
         public async Task<InfoJogoDTO> VerificarVezResposta(int idUsuario, int idPartida)
         {
-            var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida && x.Status.Placar.idUsuario == idUsuario)
+            var sessao = await _con.SESSOES.Where(x => x.idPartida == idPartida && x.idUsuario == idUsuario)
                                  .Include(y => y.Status)
-                                     .ThenInclude(r => r.Placar)
-                                     .ThenInclude(y => y.Usuario).FirstAsync();
+                                 .FirstAsync();
 
             return new InfoJogoDTO
             {
@@ -75,8 +74,6 @@ namespace Repository.Repository
                 idPartida = sessao.idPartida.Value,
                 InfoJogador = new InfoJogadorDTO
                 {
-                    idUsuario = sessao.Status.Placar.idUsuario.Value,
-                    Nome = sessao.Status.Placar.Usuario.Nome,
                     VezResponder = sessao.Status.VezResponder
                 }
             };

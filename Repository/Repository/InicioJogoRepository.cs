@@ -172,10 +172,10 @@ namespace Repository.Repository
             }
         }
 
-        public Task<List<PartidaAtivaDTO>> ListarPartidas()
+        public async Task<List<PartidaAtivaDTO>> ListarPartidas()
         {
 
-            return _con.PARTIDAS.Where(x => x.DataHoraFim == new DateTime(0001, 01, 01))
+            return await _con.PARTIDAS.Where(x => x.DataHoraFim == new DateTime(0001, 01, 01))
                                 .Select(y => new PartidaAtivaDTO
                                 {
                                     idPartida = y.idPartida,

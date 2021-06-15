@@ -44,6 +44,6 @@ namespace Repository.Models
         public DbSet<Status> STATUS { get; set; }
         public DbSet<Usuario> USUARIOS { get; set; }
         public DbSet<LogPartida> LOG_PARTIDA { get; set; }
-
+        public DbSet<Chat> CHAT { get; set; }
     }
 }
